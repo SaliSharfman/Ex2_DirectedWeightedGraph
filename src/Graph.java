@@ -9,10 +9,9 @@ public class Graph implements DirectedWeightedGraph {
 
     private HashMap<Integer,NodeData> nodes;
     private HashMap<Integer,HashMap<Integer,EdgeData>> edges;
-    private static int Edgescount=0;
+    private static int Edgescount=0,MC=0;
     public Graph() {
         nodes=new HashMap<Integer,NodeData>();
-     //   edgesOfSrc=new HashMap<Integer,EdgeData>();
         edges=new HashMap<Integer,HashMap<Integer,EdgeData>>();
     }
     @Override
@@ -27,6 +26,7 @@ public class Graph implements DirectedWeightedGraph {
     @Override
     public void addNode(NodeData n)
     {
+        MC++;
         this.nodes.put(n.getKey(),n);
     }
     @Override
@@ -35,6 +35,7 @@ public class Graph implements DirectedWeightedGraph {
             EdgeData e = new Edge(src,dest,w);
             edges.get(src).put(dest,e);
             Edgescount++;
+            MC++;
         }
     }
     @Override
@@ -55,18 +56,25 @@ public class Graph implements DirectedWeightedGraph {
     {
         return edges.get(node_id).values().iterator();
     }
+    @Override
     public NodeData removeNode(int key){
-        Edgescount-=edges.get(key).size();
-        edges.remove(key);
-        for(int i:edges.keySet())
-                if(this.removeEdge(i,key)!=null)
+        if(nodes.get(key)!=null) {
+            Edgescount -= edges.get(key).size();
+            edges.remove(key);
+            for (int i : edges.keySet())
+                if (this.removeEdge(i, key) != null)
                     Edgescount--;
+            MC++;
+        }
        return nodes.remove(key);
     }
     @Override
     public EdgeData removeEdge(int src, int dest)
     {
-        Edgescount--;
+        if(edges.get(src).get(dest)!=null) {
+            MC++;
+            Edgescount--;
+        }
         return edges.get(src).remove(dest);
     }
     @Override
@@ -74,22 +82,14 @@ public class Graph implements DirectedWeightedGraph {
     {
         return nodes.size();
     }
+    @Override
     public int edgeSize()
     {
         return Edgescount;
     }
+    @Override
     public int getMC()
     {
-        return 0;
+        return MC;
     }
-    /**
-
-
-
-    public int nodeSize();
-
-    public int edgeSize();
-
-    public int getMC();
-*/
 }
