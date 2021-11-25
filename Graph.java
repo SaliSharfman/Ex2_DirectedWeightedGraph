@@ -8,7 +8,6 @@ import java.util.Iterator;
 public class Graph implements DirectedWeightedGraph {
 
     private HashMap<Integer,NodeData> nodes;
-    //private HashMap<Integer,EdgeData> edgesOfSrc;
     private HashMap<Integer,HashMap<Integer,EdgeData>> edges;
     private static int Edgescount=0;
     public Graph() {
