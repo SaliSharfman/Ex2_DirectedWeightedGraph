@@ -9,10 +9,10 @@ public class Graph implements DirectedWeightedGraph {
 
     private HashMap<Integer,NodeData> nodes;
     private HashMap<Integer,HashMap<Integer,EdgeData>> edges;
-    private static int Edgescount=0,MC=0;
+    private static int MC=0;
     public Graph() {
-        nodes=new HashMap<Integer,NodeData>();
-        edges=new HashMap<Integer,HashMap<Integer,EdgeData>>();
+        this.nodes=new HashMap<Integer,NodeData>();
+        this.edges=new HashMap<Integer,HashMap<Integer,EdgeData>>();
     }
     @Override
     public NodeData getNode(int key){
@@ -28,64 +28,62 @@ public class Graph implements DirectedWeightedGraph {
     {
         MC++;
         this.nodes.put(n.getKey(),n);
+        this.edges.put(n.getKey(),new HashMap<Integer,EdgeData>());
     }
     @Override
     public void connect(int src, int dest, double w){
-        if(nodes.get(src)!=null&&nodes.get(src)!=null) {
-            EdgeData e = new Edge(src,dest,w);
-            edges.get(src).put(dest,e);
-            Edgescount++;
+        if(this.nodes.get(src) != null && this.nodes.get(dest) != null) {
+            EdgeData e = new Edge(src,w,dest);
+            this.edges.get(src).put(dest,e);
             MC++;
         }
     }
+
     @Override
     public Iterator<NodeData> nodeIter()
     {
-        return nodes.values().iterator();
+        return this.nodes.values().iterator();
     }
     @Override
     public Iterator<EdgeData> edgeIter(){
-        LinkedList<EdgeData>list=new LinkedList<>();
-        for(int i:edges.keySet())
-            for(int j:edges.get(i).keySet())
-                list.add(edges.get(i).get(j));
+        ArrayList<EdgeData>list=new ArrayList<EdgeData>();
+        for(int i:this.edges.keySet())
+            for(int j:this.edges.get(i).keySet())
+                list.add(this.edges.get(i).get(j));
         return list.iterator();
     }
     @Override
     public Iterator<EdgeData> edgeIter(int node_id)
     {
-        return edges.get(node_id).values().iterator();
+        return this.edges.get(node_id).values().iterator();
     }
     @Override
     public NodeData removeNode(int key){
-        if(nodes.get(key)!=null) {
-            Edgescount -= edges.get(key).size();
-            edges.remove(key);
-            for (int i : edges.keySet())
-                if (this.removeEdge(i, key) != null)
-                    Edgescount--;
+            this.edges.remove(key);
+            for (int i : this.edges.keySet())
+                this.removeEdge(i, key);
             MC++;
-        }
        return nodes.remove(key);
     }
     @Override
     public EdgeData removeEdge(int src, int dest)
     {
-        if(edges.get(src).get(dest)!=null) {
+        if(edges.get(src).get(dest)!=null)
             MC++;
-            Edgescount--;
-        }
-        return edges.get(src).remove(dest);
+        return this.edges.get(src).remove(dest);
     }
     @Override
     public int nodeSize()
     {
-        return nodes.size();
+        return this.nodes.size();
     }
     @Override
     public int edgeSize()
     {
-        return Edgescount;
+        int count=0;
+        for(int i:this.edges.keySet())
+            count+=this.edges.get(i).size();
+        return count;
     }
     @Override
     public int getMC()

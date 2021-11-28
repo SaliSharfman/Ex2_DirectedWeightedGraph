@@ -12,8 +12,15 @@ public class Edge implements EdgeData {
         this.weigh=weigh;
         this.info=info;
     }
-    public Edge(int src, int dest, double weigh){
+    public Edge(int src, double weigh,int destX){
         new Edge(src,dest,0,weigh,"");
+    }
+    public Edge(EdgeData edge){
+        this.src=edge.getSrc();
+        this.dest=edge.getDest();
+        this.tag=edge.getTag();
+        this.weigh=edge.getWeight();
+        this.info=edge.getInfo();
     }
     @Override
     public int getSrc() {

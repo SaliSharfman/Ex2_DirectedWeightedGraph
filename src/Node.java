@@ -7,11 +7,23 @@ public class Node implements NodeData {
     private String info;
     public  GeoLocation location;
 
+    public Node() {
+        this.id = 0;
+        this.weight=0;
+        this.info="";
+        this.location=new Geo_Location(0,0,0);
+    }
     public Node(int id,double weight,int tag,String info,GeoLocation location) {
         this.id = id;
         this.weight=weight;
         this.info=info;
         this.location=new Geo_Location(location);
+    }
+    public Node(NodeData node) {
+        this.id = node.getKey();
+        this.weight=node.getWeight();
+        this.info=node.getInfo();
+        this.location=new Geo_Location(node.getLocation());
     }
     public Node(String pos, int id) {
         this.id = id;
