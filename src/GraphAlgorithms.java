@@ -7,17 +7,28 @@ import com.google.gson.*;
 import java.io.FileReader;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Queue;
+
 public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
     private DirectedWeightedGraph graph;
     public GraphAlgorithms()
     {
         this.graph=new Graph();
     }
+    private Queue<NodeData> BFS(int rootID)
+    {
+        Queue<NodeData>queue= new Queue<NodeData>();
+
+    }
     @Override
     public void init(DirectedWeightedGraph g){
-        Iterator<NodeData> nit = g.nodeIter();
+        Iterator<NodeData> nit = this.graph.nodeIter();
         while (nit.hasNext()) {
-            this.graph.addNode(nit.next());
+            this.graph.removeNode(nit.next().getKey());
+        }
+        Iterator<NodeData> n1it = g.nodeIter();
+        while (n1it.hasNext()) {
+            this.graph.addNode(n1it.next());
         }
         Iterator<EdgeData> eit = g.edgeIter();
         while (eit.hasNext()) {
@@ -26,7 +37,17 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
         }
     }
     @Override
-    public boolean isConnected(){}
+    public boolean isConnected(){
+        Iterator<NodeData> i = this.graph.nodeIter();
+        Iterator<NodeData> j = this.graph.nodeIter();
+        while (i.hasNext()) {
+            int ni = i.next().getKey();
+            while (j.hasNext())
+                if (this.shortestPathDist(ni, j.next().getKey()) == -1)
+                    return false;
+        }
+        return true;
+    }
     @Override
     public double shortestPathDist(int src, int dest){
         double[][]paths = new double[this.graph.nodeSize()][this.graph.nodeSize()];

@@ -26,13 +26,15 @@ public class Graph implements DirectedWeightedGraph {
     @Override
     public void addNode(NodeData n)
     {
-        MC++;
-        this.nodes.put(n.getKey(),n);
-        this.edges.put(n.getKey(),new HashMap<Integer,EdgeData>());
+        if(!this.nodes.containsKey(n.getKey())) {
+            MC++;
+            this.nodes.put(n.getKey(), n);
+            this.edges.put(n.getKey(), new HashMap<Integer, EdgeData>());
+        }
     }
     @Override
     public void connect(int src, int dest, double w){
-        if(this.nodes.get(src) != null && this.nodes.get(dest) != null) {
+        if(this.nodes.containsKey(src) && this.nodes.containsKey(dest)&&!this.edges.get(src).containsKey(dest)) {
             EdgeData e = new Edge(src,w,dest);
             this.edges.get(src).put(dest,e);
             MC++;
@@ -59,17 +61,23 @@ public class Graph implements DirectedWeightedGraph {
     }
     @Override
     public NodeData removeNode(int key){
-            this.edges.remove(key);
-            for (int i : this.edges.keySet())
-                this.removeEdge(i, key);
-            MC++;
+        if(!this.nodes.containsKey(key))
+            return null;
+        MC-=this.edges.get(key).size();
+        this.edges.remove(key);
+        for (int i : this.edges.keySet()){
+            this.removeEdge(i, key);
+        }
+        MC--;
        return nodes.remove(key);
     }
     @Override
     public EdgeData removeEdge(int src, int dest)
     {
+        if(!this.edges.get(src).containsKey(dest))
+            return null;
         if(edges.get(src).get(dest)!=null)
-            MC++;
+            MC--;
         return this.edges.get(src).remove(dest);
     }
     @Override
