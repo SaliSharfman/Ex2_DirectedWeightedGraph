@@ -41,8 +41,7 @@ public class Ex2 {
         // ********************************
     }
     
-        private static void deserialize()
-    {
+    private static void deserialize() {
         try
         {
             GsonBuilder builder = new GsonBuilder();
