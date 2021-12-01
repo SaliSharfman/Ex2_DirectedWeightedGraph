@@ -35,7 +35,7 @@ class EdgeTest {
     @Test
     void getWeight() {
         assertEquals(2.5,edge1.getWeight());
-        assertEquals(2,edge2.getWeight());
+        assertEquals(4.6,edge2.getWeight());
         assertEquals(2.5,edge3.getWeight());
     }
 
@@ -55,8 +55,8 @@ class EdgeTest {
     @Test
     void getTag() {
         assertEquals(3,edge1.getTag());
-        assertEquals(0,edge2.getInfo());
-        assertEquals(3,edge3.getInfo());
+        assertEquals(0,edge2.getTag());
+        assertEquals(3,edge3.getTag());
     }
 
     @Test
