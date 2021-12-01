@@ -83,4 +83,15 @@ public class Node implements NodeData {
     {
         this.tag=t;
     }
+
+    @Override
+    public String toString() {
+        return "Node{" +
+                "weight=" + weight +
+                ", id=" + id +
+                ", tag=" + tag +
+                ", info='" + info + '\'' +
+                ", location=" + location +
+                '}';
+    }
 }

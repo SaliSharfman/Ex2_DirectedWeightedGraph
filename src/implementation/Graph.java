@@ -100,4 +100,14 @@ public class Graph implements DirectedWeightedGraph {
     {
         return MC;
     }
+
+    @Override
+    public String toString() {
+        return "Graph{" +
+                "nodes=" + nodes +
+                ", edges=" + edges +
+                ", MC=" + MC +
+                '}';
+    }
 }
+

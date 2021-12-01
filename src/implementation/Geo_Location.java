@@ -38,7 +38,7 @@ public class Geo_Location implements GeoLocation {
 
     @Override
     public String toString() {
-        return "{" +
+        return "Geo_Location{" +
                 "x=" + x +
                 ", y=" + y +
                 ", z=" + z +
