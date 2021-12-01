@@ -1,3 +1,5 @@
+package implementation;
+
 import api.GeoLocation;
 
 public class Geo_Location implements GeoLocation {
@@ -25,7 +27,7 @@ public class Geo_Location implements GeoLocation {
     @Override
     public double z()
     {
-        return this.y;
+        return this.z;
     }
     @Override
     public double distance(GeoLocation g)
@@ -38,7 +40,7 @@ public class Geo_Location implements GeoLocation {
 
     @Override
     public String toString() {
-        return "Geo_Location{" +
+        return "{" +
                 "x=" + x +
                 ", y=" + y +
                 ", z=" + z +
