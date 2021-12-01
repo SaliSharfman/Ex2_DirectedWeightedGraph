@@ -40,4 +40,21 @@ public class Ex2 {
         //
         // ********************************
     }
+    
+    private static void deserialize() {
+        try
+        {
+            GsonBuilder builder = new GsonBuilder();
+            builder.registerTypeAdapter(Graph.class, new GraphJsonDeserializer());
+            Gson gson = builder.create();
+            //continue as usual..
+
+            FileReader reader = new FileReader("parking.json");
+            DirectedWeightedGraph graph = gson.fromJson(reader, Graph.class);
+            System.out.println(graph);
+        }
+        catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
 }
