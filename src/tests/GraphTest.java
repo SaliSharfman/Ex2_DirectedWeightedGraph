@@ -6,9 +6,12 @@ import api.NodeData;
 import implementation.Geo_Location;
 import implementation.Graph;
 import implementation.Node;
+import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import javax.management.InvalidAttributeValueException;
+import javax.management.ValueExp;
 import java.util.Iterator;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -82,10 +85,19 @@ class GraphTest {
     @Test
     void nodeIter() {
         Iterator<NodeData>itr=graph1.nodeIter();
+       // graph1.connect(1,2,5);
         assertEquals(0,itr.next().getKey());
         assertEquals(1,itr.next().getKey());
         assertEquals(2,itr.next().getKey());
-        assertEquals(3,itr.next().getKey());
+        graph1.removeEdge(0,1);
+        try {
+            itr.next();
+            throw new RuntimeException("Expected Exception.");
+        }
+        catch(RuntimeException e)
+        {
+            assertEquals("java.lang.RuntimeException: The graph modified.",e.toString());
+        }
     }
 
     @Test
@@ -93,7 +105,15 @@ class GraphTest {
         Iterator<EdgeData>itr=graph1.edgeIter();
         assertEquals(0,itr.next().getSrc());
         assertEquals(2,itr.next().getSrc());
-        assertEquals(3,itr.next().getSrc());
+        graph1.addNode(new Node("9,9,9",4));
+        try {
+            itr.next();
+            throw new RuntimeException("Expected Exception.");
+        }
+        catch(RuntimeException e)
+        {
+            assertEquals("java.lang.RuntimeException: The graph modified.",e.toString());
+        }
     }
 
     @Test
@@ -103,8 +123,15 @@ class GraphTest {
         Iterator<EdgeData>itr=graph1.edgeIter(0);
         assertEquals(0,itr.next().getSrc());
         assertEquals(0,itr.next().getSrc());
-        assertEquals(0,itr.next().getSrc());
-
+        graph1.connect(2,3,0);
+        try {
+            itr.next();
+            throw new RuntimeException("Expected Exception.");
+        }
+        catch(RuntimeException e)
+        {
+            assertEquals("java.lang.RuntimeException: The graph modified.",e.toString());
+        }
     }
 
     @Test

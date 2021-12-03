@@ -3,6 +3,7 @@ package implementation;
 import api.DirectedWeightedGraph;
 import api.EdgeData;
 import api.NodeData;
+import org.w3c.dom.Node;
 
 import java.util.*;
 import java.util.Iterator;
@@ -11,8 +12,9 @@ public class Graph implements DirectedWeightedGraph {
 
     private HashMap<Integer,NodeData> nodes;
     private HashMap<Integer,HashMap<Integer,EdgeData>> edges;
-    private int MC=0;
+    private int MC;
     public Graph() {
+        this.MC=0;
         this.nodes=new HashMap<Integer,NodeData>();
         this.edges=new HashMap<Integer,HashMap<Integer,EdgeData>>();
     }
@@ -42,11 +44,31 @@ public class Graph implements DirectedWeightedGraph {
             MC++;
         }
     }
+    private Iterator MyIter(Iterator iter)
+    {
+        Iterator res= new Iterator() {
+            private Iterator itr=iter;
+            private final int startmc = MC;
+            @Override
+            public boolean hasNext() {
+                if (startmc != MC)
+                    throw new RuntimeException("The graph modified.");
+                return itr.hasNext();
+            }
 
+            @Override
+            public Object next() {
+                if (startmc != MC)
+                    throw new RuntimeException("The graph modified.");
+                return itr.next();
+            }
+        };
+        return res;
+    }
     @Override
     public Iterator<NodeData> nodeIter()
     {
-        return this.nodes.values().iterator();
+        return MyIter(this.nodes.values().iterator());
     }
     @Override
     public Iterator<EdgeData> edgeIter(){
@@ -54,12 +76,13 @@ public class Graph implements DirectedWeightedGraph {
         for(int i:this.edges.keySet())
             for(int j:this.edges.get(i).keySet())
                 list.add(this.edges.get(i).get(j));
-        return list.iterator();
+        return MyIter(list.iterator());
     }
+
     @Override
     public Iterator<EdgeData> edgeIter(int node_id)
     {
-        return this.edges.get(node_id).values().iterator();
+        return MyIter(this.edges.get(node_id).values().iterator());
     }
     @Override
     public NodeData removeNode(int key){
