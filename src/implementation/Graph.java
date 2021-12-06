@@ -3,21 +3,19 @@ package implementation;
 import api.DirectedWeightedGraph;
 import api.EdgeData;
 import api.NodeData;
-import org.w3c.dom.Node;
 
 import java.util.*;
 import java.util.Iterator;
 
 public class Graph implements DirectedWeightedGraph {
-
+    private HashMap<Integer, HashMap<Integer, EdgeData>> Edges;
     private HashMap<Integer, NodeData> nodes;
-    private HashMap<Integer, HashMap<Integer, EdgeData>> edges;
     private int MC;
 
     public Graph() {
         this.MC = 0;
         this.nodes = new HashMap<Integer, NodeData>();
-        this.edges = new HashMap<Integer, HashMap<Integer, EdgeData>>();
+        this.Edges = new HashMap<Integer, HashMap<Integer, EdgeData>>();
     }
 
     @Override
@@ -27,7 +25,7 @@ public class Graph implements DirectedWeightedGraph {
 
     @Override
     public EdgeData getEdge(int src, int dest) {
-        return this.edges.get(src).get(dest);
+        return this.Edges.get(src).get(dest);
     }
 
     @Override
@@ -35,15 +33,15 @@ public class Graph implements DirectedWeightedGraph {
         if (!this.nodes.containsKey(n.getKey())) {
             MC++;
             this.nodes.put(n.getKey(), n);
-            this.edges.put(n.getKey(), new HashMap<Integer, EdgeData>());
+            this.Edges.put(n.getKey(), new HashMap<Integer, EdgeData>());
         }
     }
 
     @Override
     public void connect(int src, int dest, double w) {
-        if (this.nodes.containsKey(src) && this.nodes.containsKey(dest) && !this.edges.get(src).containsKey(dest) && src != dest) {
+        if (this.nodes.containsKey(src) && this.nodes.containsKey(dest) && !this.Edges.get(src).containsKey(dest) && src != dest) {
             EdgeData e = new Edge(src, w, dest);
-            this.edges.get(src).put(dest, e);
+            this.Edges.get(src).put(dest, e);
             MC++;
         }
     }
@@ -78,24 +76,24 @@ public class Graph implements DirectedWeightedGraph {
     @Override
     public Iterator<EdgeData> edgeIter() {
         ArrayList<EdgeData> list = new ArrayList<EdgeData>();
-        for (int i : this.edges.keySet())
-            for (int j : this.edges.get(i).keySet())
-                list.add(this.edges.get(i).get(j));
+        for (int i : this.Edges.keySet())
+            for (int j : this.Edges.get(i).keySet())
+                list.add(this.Edges.get(i).get(j));
         return MyIter(list.iterator());
     }
 
     @Override
     public Iterator<EdgeData> edgeIter(int node_id) {
-        return MyIter(this.edges.get(node_id).values().iterator());
+        return MyIter(this.Edges.get(node_id).values().iterator());
     }
 
     @Override
     public NodeData removeNode(int key) {
         if (!this.nodes.containsKey(key))
             return null;
-        MC += this.edges.get(key).size();
-        this.edges.remove(key);
-        for (int i : this.edges.keySet()) {
+        MC += this.Edges.get(key).size();
+        this.Edges.remove(key);
+        for (int i : this.Edges.keySet()) {
             this.removeEdge(i, key);
         }
         MC++;
@@ -104,11 +102,11 @@ public class Graph implements DirectedWeightedGraph {
 
     @Override
     public EdgeData removeEdge(int src, int dest) {
-        if (!this.edges.get(src).containsKey(dest))
+        if (!this.Edges.get(src).containsKey(dest))
             return null;
-        if (edges.get(src).get(dest) != null)
+        if (Edges.get(src).get(dest) != null)
             MC++;
-        return this.edges.get(src).remove(dest);
+        return this.Edges.get(src).remove(dest);
     }
 
     @Override
@@ -119,8 +117,8 @@ public class Graph implements DirectedWeightedGraph {
     @Override
     public int edgeSize() {
         int count = 0;
-        for (int i : this.edges.keySet())
-            count += this.edges.get(i).size();
+        for (int i : this.Edges.keySet())
+            count += this.Edges.get(i).size();
         return count;
     }
 
@@ -138,14 +136,14 @@ public class Graph implements DirectedWeightedGraph {
     }
     private String printEdges() {
         String str = "";
-        for (int i : this.edges.keySet())
-            for (int j : this.edges.get(i).keySet())
-                str += edges.get(i).get(j) + ",";
+        for (int i : this.Edges.keySet())
+            for (int j : this.Edges.get(i).keySet())
+                str += Edges.get(i).get(j) + ",";
         return str;
     }
     @Override
     public String toString() {
-        return "{\n Edges: ["+printEdges()+"\n],\nNodes: [" + printNodes() + "\n]\n}";
+        return "{\n  Edges: ["+printEdges()+"\n],\nNodes: [" + printNodes() + "\n]\n}";
     }
 }
 

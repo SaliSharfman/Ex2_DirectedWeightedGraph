@@ -9,6 +9,8 @@ import implementation.Node;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.FileNotFoundException;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class GraphAlgorithmsTest {
@@ -30,7 +32,7 @@ class GraphAlgorithmsTest {
     @Test
     void init() {
         algog1.init(graph1);
-        assertEquals("Graph{nodes={0=Node{id=0, weight=0.0, tag=0, info='', location=Geo_Location{x=0.0, y=0.0, z=0.0}}, 1=Node{id=1, weight=0.0, tag=0, info='', location=Geo_Location{x=0.0, y=0.0, z=0.0}}, 2=Node{id=2, weight=0.0, tag=0, info='', location=Geo_Location{x=0.0, y=0.0, z=0.0}}, 3=Node{id=3, weight=0.0, tag=0, info='', location=Geo_Location{x=0.0, y=0.0, z=0.0}}}, edges={0={1=Edge{src=0, dest=1, tag=0, weigh=0.0, info=''}}, 1={}, 2={1=Edge{src=2, dest=1, tag=0, weigh=0.0, info=''}}, 3={2=Edge{src=3, dest=2, tag=0, weigh=0.0, info=''}}}, MC=7}",algog1.getGraph().toString());
+        assertEquals(graph1.toString(),algog1.getGraph().toString());
     }
 
     @Test
@@ -78,7 +80,7 @@ class GraphAlgorithmsTest {
     void getGraph() {
         algog1.init(graph1);
         DirectedWeightedGraph get1=algog1.getGraph();
-        assertEquals("Graph{nodes={0=Node{id=0, weight=0.0, tag=0, info='', location=Geo_Location{x=0.0, y=0.0, z=0.0}}, 1=Node{id=1, weight=0.0, tag=0, info='', location=Geo_Location{x=0.0, y=0.0, z=0.0}}, 2=Node{id=2, weight=0.0, tag=0, info='', location=Geo_Location{x=0.0, y=0.0, z=0.0}}, 3=Node{id=3, weight=0.0, tag=0, info='', location=Geo_Location{x=0.0, y=0.0, z=0.0}}}, edges={0={1=Edge{src=0, dest=1, tag=0, weigh=0.0, info=''}}, 1={}, 2={1=Edge{src=2, dest=1, tag=0, weigh=0.0, info=''}}, 3={2=Edge{src=3, dest=2, tag=0, weigh=0.0, info=''}}}, MC=7}",algog1.getGraph().toString());
+        assertEquals(graph1.toString(),algog1.getGraph().toString());
         assertEquals(get1.toString(),algog1.getGraph().toString());
         get1.removeNode(0);
         assertEquals(get1.toString(),algog1.getGraph().toString());
@@ -88,7 +90,7 @@ class GraphAlgorithmsTest {
     void copy() {
         algog1.init(graph1);
         DirectedWeightedGraph copy1=algog1.copy();
-        assertEquals("Graph{nodes={0=Node{id=0, weight=0.0, tag=0, info='', location=Geo_Location{x=0.0, y=0.0, z=0.0}}, 1=Node{id=1, weight=0.0, tag=0, info='', location=Geo_Location{x=0.0, y=0.0, z=0.0}}, 2=Node{id=2, weight=0.0, tag=0, info='', location=Geo_Location{x=0.0, y=0.0, z=0.0}}, 3=Node{id=3, weight=0.0, tag=0, info='', location=Geo_Location{x=0.0, y=0.0, z=0.0}}}, edges={0={1=Edge{src=0, dest=1, tag=0, weigh=0.0, info=''}}, 1={}, 2={1=Edge{src=2, dest=1, tag=0, weigh=0.0, info=''}}, 3={2=Edge{src=3, dest=2, tag=0, weigh=0.0, info=''}}}, MC=7}",copy1.toString());
+        assertEquals(graph1.toString(),copy1.toString());
         assertEquals(copy1.toString(),algog1.getGraph().toString());
         copy1.removeNode(0);
         assertNotEquals(copy1.toString(),algog1.getGraph().toString());
@@ -100,6 +102,13 @@ class GraphAlgorithmsTest {
 
     @Test
     void center() {
+        assertNull(algog1.center());
+        algog1.load("G1.json");
+        assertEquals(8,algog1.center().getKey());
+        algog1.load("G2.json");
+        assertEquals(0,algog1.center().getKey());
+        algog1.load("G3.json");
+        assertEquals(40,algog1.center().getKey());
     }
 
     @Test
@@ -108,9 +117,24 @@ class GraphAlgorithmsTest {
 
     @Test
     void save() {
+
     }
 
     @Test
     void load() {
+        try {
+            assertFalse(algog1.load("unexistfile.json"));
+        }
+        catch(Exception e)
+        {
+            assertEquals("datanexistfile.json (The system cannot find the file specified)",e.toString());
+        }
+
+        assertTrue(algog1.load("G1.json"));
+        assertEquals(17,algog1.getGraph().nodeSize());
+        assertTrue(algog1.load("G2.json"));
+        assertEquals(31,algog1.getGraph().nodeSize());
+        assertTrue(algog1.load("G3.json"));
+        assertEquals(48,algog1.getGraph().nodeSize());
     }
 }

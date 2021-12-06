@@ -1,6 +1,7 @@
 package implementation;
 
-import GUI.GraphJsonDeserializer;
+import Json.GraphJsonDeserializer;
+import Json.JsonGraph;
 import api.DirectedWeightedGraph;
 import api.DirectedWeightedGraphAlgorithms;
 import api.EdgeData;
@@ -233,7 +234,8 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
         try
         {
             PrintWriter pw = new PrintWriter(new File("data/"+file));
-            pw.write(gson.toJson(this.graph));
+            JsonGraph gr=new JsonGraph(this.graph);
+            pw.write(gson.toJson(gr));
             pw.close();
         }
         catch (FileNotFoundException e)
@@ -252,10 +254,11 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
             builder.registerTypeAdapter(Graph.class, new GraphJsonDeserializer());
             Gson gson = builder.create();
             //continue as usual..
-            FileReader reader = new FileReader(file);
+            FileReader reader = new FileReader("data/"+file);
             ans = gson.fromJson(reader, Graph.class);
 
         } catch (FileNotFoundException e) {
+            e.printStackTrace();
             return false;
         }
         this.init(ans);
