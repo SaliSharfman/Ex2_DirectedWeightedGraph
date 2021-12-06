@@ -57,14 +57,19 @@ class GraphAlgorithmsTest {
         alg.getGraph().connect(3,5,3);
         alg.getGraph().connect(5,7,4);
         alg.getGraph().connect(1,2,1);
-        alg.getGraph().connect(1,5,8);
+       // alg.getGraph().connect(1,5,8);
         alg.getGraph().connect(2,4,2);
         alg.getGraph().connect(4,6,3);
         alg.getGraph().connect(6,7,4);
-       // alg.getGraph().connect(7,1,13);
-        assertEquals(-1,alg.shortestPathDist(7,1));
+
+        alg.getGraph().connect(7,2,6);
+        alg.getGraph().connect(6,1,4);
+        alg.getGraph().connect(7,1,13);
+        alg.getGraph().connect(2,1,1);
+       // assertEquals(7,alg.shortestPathDist(7,1));
         assertEquals(9,alg.shortestPathDist(1,7));
-        System.out.println(alg.shortestPath(7,1));
+        System.out.println(alg.isConnected());
+        System.out.println(alg.shortestPath(1,7));
        // System.out.println(alg.center());
 
     }

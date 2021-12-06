@@ -1,7 +1,10 @@
 package implementation;
 import api.GeoLocation;
 import api.NodeData;
-public class Node implements NodeData {
+
+import java.util.Comparator;
+
+public class Node implements NodeData{
 
     private double weight;
     private int id,tag;
@@ -39,7 +42,6 @@ public class Node implements NodeData {
         double z= Double.parseDouble(pos.split(",")[2]);
         this.location=new Geo_Location(x,y,z);
     }
-
     @Override
     public int getKey() {
         return this.id;
