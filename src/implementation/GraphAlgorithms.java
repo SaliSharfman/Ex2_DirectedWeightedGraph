@@ -8,8 +8,10 @@ import api.NodeData;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.PrintWriter;
 import java.util.*;
 
 public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
@@ -222,6 +224,23 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
 
     @Override
     public boolean save(String file) {
+        //Make JSON!!
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        file = gson.toJson(this.graph);
+        System.out.println(file);
+
+        //Write JSON to file
+        try
+        {
+            PrintWriter pw = new PrintWriter(new File("graph.json"));
+            pw.write(file);
+            pw.close();
+        }
+        catch (FileNotFoundException e)
+        {
+            e.printStackTrace();
+            return false;
+        }
         return true;
     }
 
