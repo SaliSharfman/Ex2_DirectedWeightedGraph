@@ -88,12 +88,6 @@ public class Node implements NodeData{
 
     @Override
     public String toString() {
-        return "Node{" +
-                "id=" + id +
-                ", weight=" + weight +
-                ", tag=" + tag +
-                ", info='" + info + '\'' +
-                ", location=" + location +
-                '}';
+        return "\n{\n pos: " +this.location+" \n id: "+this.id+" \n}";
     }
 }

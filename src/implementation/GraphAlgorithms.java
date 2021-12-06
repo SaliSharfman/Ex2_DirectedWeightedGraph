@@ -219,6 +219,9 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
 
     @Override
     public List<NodeData> tsp(List<NodeData> cities) {
+        if (this.graph.nodeSize() == 0 || !this.isConnected())
+            return null;
+
         return new LinkedList<NodeData>();
     }
 
@@ -226,14 +229,11 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
     public boolean save(String file) {
         //Make JSON!!
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        file = gson.toJson(this.graph);
-        System.out.println(file);
-
         //Write JSON to file
         try
         {
-            PrintWriter pw = new PrintWriter(new File("graph.json"));
-            pw.write(file);
+            PrintWriter pw = new PrintWriter(new File("data/"+file));
+            pw.write(gson.toJson(this.graph));
             pw.close();
         }
         catch (FileNotFoundException e)

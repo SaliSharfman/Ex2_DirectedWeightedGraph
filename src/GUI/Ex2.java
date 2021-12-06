@@ -82,8 +82,10 @@ public class Ex2 {
        DirectedWeightedGraph graph = getGrapg("data/G3.json");
         DirectedWeightedGraphAlgorithms graphAlgo =getGrapgAlgo("data/G3.json");
         graphAlgo.load("data/G1.json");
-        System.out.println(graph.nodeSize());
-        System.out.println(graphAlgo.center());
+      //  System.out.println(graph);
+        //System.out.println(graphAlgo.center());
+        graphAlgo.save("graph1.json");
+       System.out.println(graphAlgo.load("graph1.json"));
 
 
 
