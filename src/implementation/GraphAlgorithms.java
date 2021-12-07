@@ -321,6 +321,16 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
 
         return ans;
     }
+    
+    // Calculate the acceptance probability
+    public static double acceptanceProbability(double energy, double newEnergy, double temperature) {
+        // If the new solution is better, accept it
+        if (newEnergy < energy) {
+            return 1.0;
+        }
+        // If the new solution is worse, calculate an acceptance probability
+        return Math.exp((energy - newEnergy) / temperature);
+    }
 
     @Override
     public boolean save(String file) {
