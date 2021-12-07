@@ -220,10 +220,106 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
 
     @Override
     public List<NodeData> tsp(List<NodeData> cities) {
+
         if (this.graph.nodeSize() == 0 || !this.isConnected())
             return null;
 
-        return new LinkedList<NodeData>();
+        DirectedWeightedGraphAlgorithms graphAlgo = new GraphAlgorithms();
+        DirectedWeightedGraph graph = new Graph();
+
+
+        for (int i = 0; i < cities.size(); i++){
+            NodeData node = cities.get(i);
+            graph.addNode(node);
+        }
+
+        for (int i = 0; i < cities.size(); i++){
+            NodeData node = cities.get(i);
+            Iterator<EdgeData> edgeDataIterator = this.graph.edgeIter(node.getKey());
+            while (edgeDataIterator.hasNext()){
+                EdgeData edge = edgeDataIterator.next();
+                graph.connect(edge.getSrc(), edge.getDest(), edge.getWeight());
+            }
+        }
+
+        graphAlgo.init(graph);
+
+        List<NodeData> cities2 = new LinkedList<NodeData>();
+
+        Iterator<NodeData> nodeDataIterator2 = graphAlgo.getGraph().nodeIter();
+        while(nodeDataIterator2.hasNext()){
+            NodeData node = nodeDataIterator2.next();
+            cities2.add(node);
+
+            // Create and add our cities
+            City city = new City(node);
+            TourManager.addCity(city);
+        }
+
+
+        // Set initial temp
+        double temp = 10000;
+
+        // Cooling rate
+        double coolingRate = 0.003;
+
+        // Initialize intial solution
+        Tour currentSolution = new Tour();
+        currentSolution.generateIndividual();
+
+        System.out.println("Initial solution distance: " + currentSolution.getDistance(graphAlgo));
+
+        // Set as current best
+        Tour best = new Tour(currentSolution.getTour());
+
+        // Loop until system has cooled
+        while (temp > 1) {
+            // Create new neighbour tour
+            Tour newSolution = new Tour(currentSolution.getTour());
+
+            // Get a random positions in the tour
+            int tourPos1 = (int) (newSolution.tourSize() * Math.random());
+            int tourPos2 = (int) (newSolution.tourSize() * Math.random());
+
+            // Get the cities at selected positions in the tour
+            City citySwap1 = newSolution.getCity(tourPos1);
+            City citySwap2 = newSolution.getCity(tourPos2);
+
+            // Swap them
+            newSolution.setCity(tourPos2, citySwap1);
+            newSolution.setCity(tourPos1, citySwap2);
+
+            // Get energy of solutions
+            double currentEnergy = currentSolution.getDistance(graphAlgo);
+            double neighbourEnergy = newSolution.getDistance(graphAlgo);
+
+            // Decide if we should accept the neighbour
+            if (acceptanceProbability(currentEnergy, neighbourEnergy, temp) > Math.random()) {
+                currentSolution = new Tour(newSolution.getTour());
+            }
+
+            // Keep track of the best solution found
+            if (currentSolution.getDistance(graphAlgo) < best.getDistance(graphAlgo)) {
+                best = new Tour(currentSolution.getTour());
+            }
+
+            // Cool system
+            temp *= 1-coolingRate;
+        }
+
+        System.out.println("Final solution distance: " + best.getDistance(graphAlgo));
+        System.out.println("Tour: " + best);
+
+        final Tour tour = best;
+
+
+        //CONVERSE from List tour to List NodeData
+        List<NodeData> ans = new LinkedList<NodeData>();
+        for(int i = 0; i<tour.getTour().size(); i++){
+            ans.add(tour.getCity(i).getNode());
+        }
+
+        return ans;
     }
 
     @Override
