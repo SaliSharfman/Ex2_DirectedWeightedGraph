@@ -2,43 +2,57 @@ package GUI;
 
 import api.DirectedWeightedGraph;
 import api.DirectedWeightedGraphAlgorithms;
+import api.NodeData;
 import implementation.Graph;
 import implementation.GraphAlgorithms;
+import implementation.Node;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Point2D;
+import java.util.Iterator;
 import java.util.LinkedList;
 
 public class myGraphWindow extends JFrame {
 
-    public myGraphWindow() throws HeadlessException {
+    DirectedWeightedGraphAlgorithms graphAlgorithms = new GraphAlgorithms();
+
+    public myGraphWindow(DirectedWeightedGraphAlgorithms graphAlgorithm) throws HeadlessException {
+
+        this.graphAlgorithms.init(graphAlgorithm.copy());
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //exit from application
         this.setSize(screenSize); //sets the x-dimension, and y-dimension of frame
-        this.add(new MyPanel());
+        this.add(new MyPanel(graphAlgorithms));
         this.setVisible(true);
 
     }
 
     public class MyPanel extends JPanel{
 
-        DirectedWeightedGraph graph = new Graph();
-        DirectedWeightedGraphAlgorithms graphAlgorithms = new GraphAlgorithms();
         LinkedList<Point2D> points = new LinkedList<>();
 
         public MyPanel(DirectedWeightedGraphAlgorithms graphAlgorithm){
 
-            this.graphAlgorithms.init(graphAlgorithm.copy());
+            DirectedWeightedGraph graph = graphAlgorithm.getGraph();
+
+            Iterator<NodeData> nit = graph.nodeIter();
+            while (nit.hasNext()) {
+                NodeData n = nit.next();
+                points.add(new Point2D.Double(n.getLocation().x(), n.getLocation().y()));
+                System.out.println("point " + n.getLocation().x() + n.getLocation().y() + " was added ");
+            }
 
 
-            this.points.add(new Point2D.Double(10, 100));
-            this.points.add(new Point2D.Double(100, 100));
-            this.points.add(new Point2D.Double(200, 100));
-            this.points.add(new Point2D.Double(300, 100));
-            this.points.add(new Point2D.Double(400, 100));
-            this.points.add(new Point2D.Double(500, 100));
+
+
+//            this.points.add(new Point2D.Double(10, 100));
+//            this.points.add(new Point2D.Double(100, 100));
+//            this.points.add(new Point2D.Double(200, 100));
+//            this.points.add(new Point2D.Double(300, 100));
+//            this.points.add(new Point2D.Double(400, 100));
+//            this.points.add(new Point2D.Double(500, 100));
 
 
         }
@@ -59,8 +73,8 @@ public class myGraphWindow extends JFrame {
         }
     }
 
-    public static void main(String[] args) {
-        new myGraphWindow();
-    }
+//    public static void main(String[] args) {
+//        new myGraphWindow();
+//    }
 }
 
