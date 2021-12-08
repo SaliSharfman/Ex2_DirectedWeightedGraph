@@ -42,14 +42,20 @@ public class GraphGUI extends JFrame{
         setLayout(new BoxLayout(this.getContentPane(), BoxLayout.X_AXIS));
 
         sideMenu = new JPanel();
-        sideMenu.setAlignmentX(LEFT_ALIGNMENT);
-        sideMenu.setMaximumSize(Toolkit.getDefaultToolkit().getScreenSize());
+        sideMenu.setAlignmentX(TOP_ALIGNMENT);
+        sideMenu.setMaximumSize(new Dimension(400,100));
         setSideMenu();
         canvas = new GraphCanvas(this);
-        canvas.setAlignmentX(LEFT_ALIGNMENT);
-        canvas.setSize(400,400);
+        canvas.setAlignmentX(BOTTOM_ALIGNMENT);
+        canvas.setSize(800,800);
+        JPanel panel =new JPanel();
+        panel.setLayout(new GridLayout(2,1));
+
+
         add(canvas);
         add(sideMenu);
+        //add(panel);
+
 
 
 
@@ -60,23 +66,27 @@ public class GraphGUI extends JFrame{
      * for the GUI
      */
     public void setSideMenu() {
-        sideMenu.setLayout(new GridLayout(6,7));
-
+        sideMenu.setLayout(new GridLayout(5,7));
+        //sidemenu.setSize(400,100);
+       // sidemenu.setBounds(5,5,5,5);
         buttons = new JRadioButton[6];
 
         file = new JPanel();
         file.setLayout(new GridLayout(1,1));
-        file.setBounds(50,50,40,15);
+        file.setBounds(5,5,5,5);
 
         file.add(new JLabel("File name:"));
         fileinput = new JTextField(15);
+        fileinput.setBounds(5,5,5,5);
         file.add(fileinput);
 
         load = new JButton("load");
+        load.setBounds(5,5,5,5);
         load.addActionListener(bl);
         file.add(load);
 
         save = new JButton("save");
+        save.setBounds(5,5,5,5);
         save.addActionListener(bl);
         file.add(save);
 
@@ -143,8 +153,10 @@ public class GraphGUI extends JFrame{
 
         menu = new JPanel();
         menu.setLayout(new GridLayout(1,2));
+        menu.setBounds(5,5,5,5);
 
         ok = new JButton("ok");
+        ok.setBounds(50,100,80,30);
         ok.addActionListener(bl);
         menu.add(ok);
 

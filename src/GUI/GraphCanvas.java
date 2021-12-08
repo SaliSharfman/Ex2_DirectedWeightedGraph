@@ -7,14 +7,7 @@ import implementation.Edge;
 import implementation.GraphAlgorithms;
 import implementation.Node;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Point;
-import java.awt.RenderingHints;
-import java.awt.Shape;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.Ellipse2D;
@@ -31,6 +24,7 @@ public class GraphCanvas extends JPanel implements MouseListener{
     private static boolean isEnabled;
     protected static DirectedWeightedGraphAlgorithms graphDrawing;
     private static NodeData endpt1,endpt2;
+    static boolean numbers=false;
 
     /*
      * One Parameter Constructor of a GraphCanvas
@@ -39,6 +33,7 @@ public class GraphCanvas extends JPanel implements MouseListener{
      */
     public GraphCanvas(GraphGUI frame)
     {
+
         this.frame=frame;
         isEnabled = false;
         radioButtonState="1";
@@ -46,7 +41,12 @@ public class GraphCanvas extends JPanel implements MouseListener{
         graphDrawing.load(frame.getFileName());
         this.addMouseListener(this);
         this.frame.getContentPane().setBackground(new Color(21, 208, 178));
+        //this.frame.setMaximumSize(new Dimension(800,100));
         this.setBackground(Color.GRAY);
+        this.setMaximumSize(new Dimension(1200,1200));
+
+
+
     }
 
     /*
@@ -154,8 +154,9 @@ public class GraphCanvas extends JPanel implements MouseListener{
     public void paintComponent(Graphics g){
         super.paintComponent(g);
 
-        Graphics2D g2 = (Graphics2D) g;
 
+        Graphics2D g2 = (Graphics2D) g;
+        //g2.scale(30,40);
 
         /*
          * Draws all the Vertices that the user has
@@ -174,7 +175,7 @@ public class GraphCanvas extends JPanel implements MouseListener{
             }
             g2.setStroke(new BasicStroke(5));
             drawArrowLine(g2,from.x,from.y,to.x-1,to.y-1,25,10);
-                  if(edge.getWeight()!=0) {
+                  if(edge.getWeight()!=0&&numbers) {
                       g2.setFont(new Font("Dialog",Font.BOLD,18));
                       g2.drawString(""+edge.getWeight(), ((from.x+to.x)/2)+20 , ((from.y+to.y)/2));
                 }
@@ -188,9 +189,10 @@ public class GraphCanvas extends JPanel implements MouseListener{
                 case 1:g2.setColor(Color.RED);break;
                 case 2:g2.setColor(Color.GREEN);break;
             }
-            g2.setFont(new Font("Dialog",Font.BOLD,18));
-            g2.drawString(""+node.getKey(),(int)(node.getLocation().x()+20),(int) node.getLocation().y());
-
+            if (numbers) {
+              g2.setFont(new Font("Dialog",Font.BOLD,18));
+              g2.drawString(""+node.getKey(),(int)(node.getLocation().x()+20),(int) node.getLocation().y());
+            }
             g2.fill(vertex);
         }
 

@@ -5,10 +5,7 @@ import Json.JsonGraph;
 import annealing.City;
 import annealing.Tour;
 import annealing.TourManager;
-import api.DirectedWeightedGraph;
-import api.DirectedWeightedGraphAlgorithms;
-import api.EdgeData;
-import api.NodeData;
+import api.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -349,7 +346,15 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
         try
         {
             PrintWriter pw = new PrintWriter(new File("data/"+file));
-            JsonGraph gr=new JsonGraph(this.graph);
+            DirectedWeightedGraph gcopy=this.copy();
+            Iterator<NodeData>nitr=gcopy.nodeIter();
+            while (nitr.hasNext())
+            {
+                NodeData node=nitr.next();
+                GeoLocation g = new Geo_Location((node.getLocation().x()+35000)/1000,(node.getLocation().y()+32000)/1000,(node.getLocation().z())/100);
+                node.setLocation(g);
+            }
+            JsonGraph gr=new JsonGraph(gcopy);
             pw.write(gson.toJson(gr));
             pw.close();
         }
@@ -372,9 +377,17 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
             FileReader reader = new FileReader("data/"+file);
             ans = gson.fromJson(reader, Graph.class);
 
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             return false;
+        }
+        Iterator<NodeData>nitr=ans.nodeIter();
+        while (nitr.hasNext())
+        {
+            NodeData node=nitr.next();
+            GeoLocation g = new Geo_Location((node.getLocation().x()*1000)-35000,(node.getLocation().y()*1000)-32000,node.getLocation().z()*100);
+            node.setLocation(g);
         }
         this.init(ans);
         return true;
