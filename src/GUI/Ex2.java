@@ -94,7 +94,7 @@ public class Ex2 {
 //
 //       System.out.println(graphAlgo.load("graph1.json"));
 
-        runGUI("Yosef.json");
+        runGUI("connectedGraph.json");
 
 
 

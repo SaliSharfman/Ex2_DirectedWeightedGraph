@@ -13,8 +13,7 @@ import java.awt.event.MouseListener;
 import java.awt.geom.Ellipse2D;
 import java.util.*;
 
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 public class GraphCanvas extends JPanel implements MouseListener{
 
@@ -24,7 +23,7 @@ public class GraphCanvas extends JPanel implements MouseListener{
     private static boolean isEnabled;
     protected static DirectedWeightedGraphAlgorithms graphDrawing;
     private static NodeData endpt1,endpt2;
-    static boolean numbers=false;
+    public boolean numbers=false;
 
     /*
      * One Parameter Constructor of a GraphCanvas
@@ -41,7 +40,6 @@ public class GraphCanvas extends JPanel implements MouseListener{
         graphDrawing.load(frame.getFileName());
         this.addMouseListener(this);
         this.frame.getContentPane().setBackground(new Color(21, 208, 178));
-        //this.frame.setMaximumSize(new Dimension(800,100));
         this.setBackground(Color.GRAY);
         this.setMaximumSize(new Dimension(1200,1200));
 

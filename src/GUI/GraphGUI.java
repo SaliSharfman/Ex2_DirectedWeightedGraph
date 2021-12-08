@@ -4,11 +4,11 @@ import javax.swing.*;
 
 public class GraphGUI extends JFrame{
 
-    public JPanel sideMenu,menu,file,nodes,edges,tsp;
+    public JPanel sideMenu, buttonpanel1,buttonpanel2,file,nodes,edgesr,edgesb,tsp;
     protected GraphCanvas canvas;
     public JTextField fileinput,nodeinput,srcinput, destinput,winput,tspinput;
     protected JRadioButton[] buttons;
-    private JButton ok,center,isconnected,load,save,clear,clearc,cancel,help,sidemenu,close,close1;
+    private JButton load,save,ok,isconnected,center,numbers,clear,clearc,cancel,help;
     public RadioButtonListener rbl;
     private String filename;
     private ButtonListener bl;
@@ -17,7 +17,9 @@ public class GraphGUI extends JFrame{
      * A default constructor for the GraphGUI
      */
     public GraphGUI(String filename) {
-        setTitle("Graph GUI");
+        setTitle("Sali and Yosef Graph GUI");
+        ImageIcon icon = new ImageIcon("icon.jpg");
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("icon.jpg")));
         this.filename=filename;
         Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
         setSize(d);
@@ -43,18 +45,17 @@ public class GraphGUI extends JFrame{
 
         sideMenu = new JPanel();
         sideMenu.setAlignmentX(TOP_ALIGNMENT);
-        sideMenu.setMaximumSize(new Dimension(400,100));
+        sideMenu.setMaximumSize(new Dimension(400,200));
         setSideMenu();
         canvas = new GraphCanvas(this);
         canvas.setAlignmentX(BOTTOM_ALIGNMENT);
         canvas.setSize(800,800);
-        JPanel panel =new JPanel();
-        panel.setLayout(new GridLayout(2,1));
-
 
         add(canvas);
         add(sideMenu);
-        //add(panel);
+
+
+
 
 
 
@@ -62,23 +63,16 @@ public class GraphGUI extends JFrame{
     }
 
     /*
-     * A helper function that sets up the side menu
+     * A helper function that sets up the side buttonpanel1
      * for the GUI
      */
     public void setSideMenu() {
-        sideMenu.setLayout(new GridLayout(5,7));
-        //sidemenu.setSize(400,100);
-       // sidemenu.setBounds(5,5,5,5);
+        sideMenu.setLayout(new GridLayout(7,7));
         buttons = new JRadioButton[6];
 
         file = new JPanel();
         file.setLayout(new GridLayout(1,1));
         file.setBounds(5,5,5,5);
-
-        file.add(new JLabel("File name:"));
-        fileinput = new JTextField(15);
-        fileinput.setBounds(5,5,5,5);
-        file.add(fileinput);
 
         load = new JButton("load");
         load.setBounds(5,5,5,5);
@@ -89,6 +83,14 @@ public class GraphGUI extends JFrame{
         save.setBounds(5,5,5,5);
         save.addActionListener(bl);
         file.add(save);
+
+
+
+        fileinput = new JTextField(15);
+        fileinput.setBounds(5,5,5,5);
+        file.add(fileinput);
+
+        file.add(new JLabel("File name"));
 
 
         sideMenu.add(file);
@@ -105,37 +107,44 @@ public class GraphGUI extends JFrame{
         nodes.add(buttons[1]);
 
         nodeinput = new JTextField(7);
-        nodes.add(new JLabel("Node ID:"));
         nodes.add(nodeinput);
+        nodes.add(new JLabel("Node ID"));
 
         sideMenu.add(nodes);
 
-        edges = new JPanel();
-        edges.setLayout(new GridLayout(1,4));
-
-        buttons[2] = new JRadioButton("connect edge");
-        buttons[2].addActionListener(rbl);
-        edges.add(buttons[2]);
-
-        buttons[3] = new JRadioButton("remove edge");
-        buttons[3].addActionListener(rbl);
-        edges.add(buttons[3]);
-
-        buttons[4] = new JRadioButton("shortest path");
-        buttons[4].addActionListener(rbl);
-        edges.add(buttons[4]);
+        edgesb = new JPanel();
+        edgesb.setLayout(new GridLayout(1,4));
 
         srcinput = new JTextField(1);
         destinput = new JTextField(1);
         winput=new JTextField(1);
-        edges.add(new JLabel("Src ID:"));
-        edges.add(srcinput);
-        edges.add(new JLabel("Dest ID:"));
-        edges.add(destinput);
-        edges.add(new JLabel("Edge weight to connect:"));
-        edges.add(winput);
 
-        sideMenu.add(edges);
+        edgesb.add(srcinput);
+        edgesb.add(new JLabel("Src"));
+
+        edgesb.add(destinput);
+        edgesb.add(new JLabel("Dest"));
+
+        edgesb.add(winput);
+        edgesb.add(new JLabel("Weight"));
+
+        sideMenu.add(edgesb);
+
+        edgesr = new JPanel();
+        edgesr.setLayout(new GridLayout(1,4));
+
+        buttons[2] = new JRadioButton("connect edge");
+        buttons[2].addActionListener(rbl);
+        edgesr.add(buttons[2]);
+
+        buttons[3] = new JRadioButton("remove edge");
+        buttons[3].addActionListener(rbl);
+        edgesr.add(buttons[3]);
+
+        buttons[4] = new JRadioButton("shortest path");
+        buttons[4].addActionListener(rbl);
+        edgesr.add(buttons[4]);
+        sideMenu.add(edgesr);
 
         tsp = new JPanel();
         tsp.setLayout(new GridLayout(1,2));
@@ -145,46 +154,64 @@ public class GraphGUI extends JFrame{
         tsp.add(buttons[5]);
 
         tspinput = new JTextField(2);
-        tsp.add(new JLabel("Write node keys for tsp seperates by ','"));
+
         tsp.add(tspinput);
+        tsp.add(new JLabel("Write keys for tsp "));
+        tsp.add(new JLabel("seperates by ,"));
 
 
         sideMenu.add(tsp);
 
-        menu = new JPanel();
-        menu.setLayout(new GridLayout(1,2));
-        menu.setBounds(5,5,5,5);
+        buttonpanel1 = new JPanel();
+        buttonpanel1.setLayout(new GridLayout(1,2));
+        buttonpanel1.setBounds(5,5,5,5);
 
         ok = new JButton("ok");
         ok.setBounds(50,100,80,30);
         ok.addActionListener(bl);
-        menu.add(ok);
-
-        center = new JButton("center");
-        center.addActionListener(bl);
-        menu.add(center);
+        buttonpanel1.add(ok);
 
         isconnected = new JButton("is connected");
         isconnected.addActionListener(bl);
-        menu.add(isconnected);
+        buttonpanel1.add(isconnected);
+
+
+        center = new JButton("center");
+        center.addActionListener(bl);
+        buttonpanel1.add(center);
+
+        numbers = new JButton("numbers");
+        numbers.addActionListener(bl);
+        buttonpanel1.add(numbers);
+        sideMenu.add(buttonpanel1);
+
+
+        buttonpanel2 = new JPanel();
+        buttonpanel2.setLayout(new GridLayout(1,2));
+        buttonpanel2.setBounds(5,5,5,5);
+
 
         clearc = new JButton("clear colors");
         clearc.addActionListener(bl);
-        menu.add(clearc);
+        buttonpanel2.add(clearc);
 
         clear = new JButton("clear graph");
         clear.addActionListener(bl);
-        menu.add(clear);
+        buttonpanel2.add(clear);
 
         cancel = new JButton("cancel");
         cancel.addActionListener(bl);
-        menu.add(cancel);
+        buttonpanel2.add(cancel);
 
         help = new JButton("Help");
         help.addActionListener(bl);
-        menu.add(help);
+        buttonpanel2.add(help);
 
-        sideMenu.add(menu);
+        sideMenu.add(buttonpanel2);
+        JPanel pp=new JPanel();
+
+
+
     }
 
 

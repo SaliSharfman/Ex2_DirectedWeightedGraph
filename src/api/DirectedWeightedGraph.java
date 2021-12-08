@@ -46,13 +46,13 @@ public interface DirectedWeightedGraph {
 	 */
 	public Iterator<NodeData> nodeIter();
 	/**
-	 * This method returns an Iterator for all the edges in this graph.
-	 * Note: if any of the edges going out of this node were changed since the iterator was constructed - a RuntimeException should be thrown.
+	 * This method returns an Iterator for all the edgesr in this graph.
+	 * Note: if any of the edgesr going out of this node were changed since the iterator was constructed - a RuntimeException should be thrown.
 	 * @return Iterator<EdgeData>
 	 */
 	public Iterator<EdgeData> edgeIter();
 	/**
-	 * This method returns an Iterator for edges getting out of the given node (all the edges starting (source) at the given node).
+	 * This method returns an Iterator for edgesr getting out of the given node (all the edgesr starting (source) at the given node).
 	 * Note: if the graph was changed since the iterator was constructed - a RuntimeException should be thrown.
 	 * @return Iterator<EdgeData>
 	 */
@@ -60,8 +60,8 @@ public interface DirectedWeightedGraph {
 
 	/**
 	 * Deletes the node (with the given ID) from the graph -
-	 * and removes all edges which starts or ends at this node.
-	 * This method should run in O(k), V.degree=k, as all the edges should be removed.
+	 * and removes all edgesr which starts or ends at this node.
+	 * This method should run in O(k), V.degree=k, as all the edgesr should be removed.
 	 * @return the data of the removed node (null if none). 
 	 * @param key
 	 */
@@ -80,7 +80,7 @@ public interface DirectedWeightedGraph {
 	 */
 	public int nodeSize();
 	/** 
-	 * Returns the number of edges (assume directional graph).
+	 * Returns the number of edgesr (assume directional graph).
 	 * Note: this method should run in O(1) time.
 	 * @return
 	 */

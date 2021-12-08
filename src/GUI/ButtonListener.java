@@ -127,8 +127,9 @@ public class ButtonListener implements ActionListener {
                 String path;
                 try {
                     path=this.gui.canvas.frame.tspinput.getText();
-                    if (path == "") throw new NullPointerException();
+                    if (path.equals("")) throw new NullPointerException();
                 } catch (NullPointerException ex) {
+                    JOptionPane.showMessageDialog(null, "No input");
                     return;
                 }
                 String[]keys;
@@ -151,7 +152,16 @@ public class ButtonListener implements ActionListener {
                 }
                 DirectedWeightedGraph graph1=this.gui.canvas.getGraphDrawing().copy();
                 DirectedWeightedGraphAlgorithms algo1=new GraphAlgorithms(graph1);
-                tspnodes=algo1.tsp(tspnodes);
+                try {
+                    tspnodes=algo1.tsp(tspnodes);
+                    if (tspnodes==null) throw new NullPointerException();
+                }
+                catch (NullPointerException ex)
+                {
+                    JOptionPane.showMessageDialog(null, "No tsp path with that nodes");
+
+                }
+
                 path="";
                 int[]arr=new int[tspnodes.size()];
                 int i=0;
@@ -190,11 +200,11 @@ public class ButtonListener implements ActionListener {
                 JOptionPane.showMessageDialog(null, "The graph is not connected!");
         }
         if (buttonName.equals("cancel")) {
-           this.gui.fileinput.setText("circle.json");
+           this.gui.fileinput.setText("");
             this.gui.nodeinput.setText("");
             this.gui.srcinput.setText("");
             this.gui.destinput.setText("");
-            this.gui.winput.setText("1");
+            this.gui.winput.setText("");
             this.gui.tspinput.setText("");
 
         }
@@ -215,13 +225,11 @@ public class ButtonListener implements ActionListener {
             this.gui.canvas.getGraphDrawing().init(g1);
             this.gui.canvas.paintComponent(this.gui.canvas.getGraphics());
         }
-        if (buttonName.equals("Menu")) {
-            this.gui.setLayout(new BoxLayout(this.gui.getContentPane(), BoxLayout.X_AXIS));
-            this.gui.canvas = new GraphCanvas(this.gui);
-            this.gui.add(this.gui.canvas);
-            this.gui.add(this.gui.sideMenu);
-
+        if (buttonName.equals("numbers")) {
+            this.gui.canvas.numbers=!this.gui.canvas.numbers;
+            this.gui.canvas.paintComponent(this.gui.canvas.getGraphics());
         }
+
 
 
     }
