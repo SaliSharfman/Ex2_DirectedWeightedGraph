@@ -228,11 +228,11 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
 
         for (int i = 0; i < cities.size(); i++){
             NodeData node = cities.get(i);
-            graph.addNode(new Node(node));
+            graph.addNode(node);
         }
 
         for (int i = 0; i < cities.size(); i++){
-            NodeData node = new Node(cities.get(i));
+            NodeData node = cities.get(i);
             Iterator<EdgeData> edgeDataIterator = this.graph.edgeIter(node.getKey());
             while (edgeDataIterator.hasNext()){
                 EdgeData edge = edgeDataIterator.next();
@@ -244,10 +244,13 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
 
         List<NodeData> cities2 = new LinkedList<NodeData>();
 
+        if(TourManager.numberOfCities()!= 0)
+            TourManager.deleteAll();
+
         Iterator<NodeData> nodeDataIterator2 = graphAlgo.getGraph().nodeIter();
         while(nodeDataIterator2.hasNext()){
             NodeData node = nodeDataIterator2.next();
-            cities2.add(new Node(node));
+            cities2.add(node);
 
             // Create and add our cities
             City city = new City(node);
@@ -306,17 +309,17 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
         }
 
         System.out.println("Final solution distance: " + best.getDistance(graphAlgo));
-        System.out.println("Tour: " + best);
+        //System.out.println("Tour: " + best);
 
         final Tour tour = best;
 
 
         //CONVERSE from List tour to List NodeData
         List<NodeData> ans = new LinkedList<NodeData>();
+
         for(int i = 0; i<tour.getTour().size(); i++){
-            ans.add(tour.getCity(i).getNode());
+            ans.add(new Node(tour.getCity(i).getNode()));
         }
-        ans.add(ans.get(0));
 
         return ans;
     }
