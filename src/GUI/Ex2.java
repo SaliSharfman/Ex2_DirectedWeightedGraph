@@ -31,6 +31,7 @@ import com.google.gson.GsonBuilder;
 import implementation.Graph;
 import implementation.GraphAlgorithms;
 
+import javax.swing.*;
 import java.lang.reflect.Type;
 
 
@@ -71,22 +72,30 @@ public class Ex2 {
      * @param json_file - a json file (e.g., G1.json - G3.gson)
      */
     public static void runGUI(String json_file) {
-        DirectedWeightedGraphAlgorithms alg = getGrapgAlgo(json_file);
-        // ****** Add your code here ******
-        //
-        // ********************************
+        DirectedWeightedGraphAlgorithms alg = new GraphAlgorithms();
+        alg.load(json_file);
+        try {
+            UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+        } catch (ClassNotFoundException | InstantiationException
+                | IllegalAccessException | UnsupportedLookAndFeelException e) {
+        }
+
+        GraphGUI gui = new GraphGUI(json_file);
     }
 
 
     public static void main(String[] args) {
-       DirectedWeightedGraph graph = getGrapg("G3.json");
-        DirectedWeightedGraphAlgorithms graphAlgo =getGrapgAlgo("data/G3.json");
-        graphAlgo.load("G1.json");
-      //  System.out.println(graph);
-        //System.out.println(graphAlgo.center());
-        graphAlgo.save("graph1.json");
+//       DirectedWeightedGraph graph = getGrapg("G3.json");
+//        DirectedWeightedGraphAlgorithms graphAlgo =getGrapgAlgo("data/G3.json");
+//        graphAlgo.load("G1.json");
+//      //  System.out.println(graph);
+//        //System.out.println(graphAlgo.center());
+//        graphAlgo.save("graph1.json");
+//
+//       System.out.println(graphAlgo.load("graph1.json"));
 
-       System.out.println(graphAlgo.load("graph1.json"));
+        runGUI("Yosef.json");
+
 
 
 

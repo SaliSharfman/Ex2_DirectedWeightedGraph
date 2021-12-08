@@ -2,6 +2,9 @@ package implementation;
 
 import Json.GraphJsonDeserializer;
 import Json.JsonGraph;
+import annealing.City;
+import annealing.Tour;
+import annealing.TourManager;
 import api.DirectedWeightedGraph;
 import api.DirectedWeightedGraphAlgorithms;
 import api.EdgeData;
@@ -155,10 +158,10 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
             return null;
         while (node.getTag()!=src) {
             node = gcopy.getNode(node.getTag());
-            stack.push(node);
+            stack.push(this.graph.getNode(node.getKey()));
         }
         LinkedList list =new LinkedList();
-        list.add(gcopy.getNode(src));
+        list.add(this.graph.getNode(src));
         while (!stack.isEmpty())
             list.add(stack.pop());
         return list;
@@ -217,9 +220,7 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
         }
         return this.graph.getNode(center);
     }
-
-    @Override
-    public List<NodeData> tsp(List<NodeData> cities) {
+    public List<NodeData> maketsp(List<NodeData> cities) {
 
         if (this.graph.nodeSize() == 0 || !this.isConnected())
             return null;
@@ -230,11 +231,11 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
 
         for (int i = 0; i < cities.size(); i++){
             NodeData node = cities.get(i);
-            graph.addNode(node);
+            graph.addNode(new Node(node));
         }
 
         for (int i = 0; i < cities.size(); i++){
-            NodeData node = cities.get(i);
+            NodeData node = new Node(cities.get(i));
             Iterator<EdgeData> edgeDataIterator = this.graph.edgeIter(node.getKey());
             while (edgeDataIterator.hasNext()){
                 EdgeData edge = edgeDataIterator.next();
@@ -249,7 +250,7 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
         Iterator<NodeData> nodeDataIterator2 = graphAlgo.getGraph().nodeIter();
         while(nodeDataIterator2.hasNext()){
             NodeData node = nodeDataIterator2.next();
-            cities2.add(node);
+            cities2.add(new Node(node));
 
             // Create and add our cities
             City city = new City(node);
@@ -318,8 +319,16 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
         for(int i = 0; i<tour.getTour().size(); i++){
             ans.add(tour.getCity(i).getNode());
         }
+        ans.add(ans.get(0));
 
         return ans;
+    }
+
+    @Override
+    public List<NodeData> tsp(List<NodeData> cities) {
+        GraphAlgorithms algo = new GraphAlgorithms();
+        algo.init(this.copy());
+        return algo.maketsp(cities);
     }
     
     // Calculate the acceptance probability

@@ -34,8 +34,8 @@ public class SimulatedAnnealing {
 
     public static void main(String[] args) {
 
-        DirectedWeightedGraph graph = Ex2.getGrapg("G1.json");
-        DirectedWeightedGraphAlgorithms graphAlgo = getGrapgAlgo("G1.json");
+        DirectedWeightedGraph graph = Ex2.getGrapg("Yosef.json");
+        DirectedWeightedGraphAlgorithms graphAlgo = getGrapgAlgo("Yosef.json");
 
         List<NodeData> cities = new LinkedList<>();
 

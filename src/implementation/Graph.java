@@ -94,7 +94,8 @@ public class Graph implements DirectedWeightedGraph {
         MC += this.Edges.get(key).size();
         this.Edges.remove(key);
         for (int i : this.Edges.keySet()) {
-            this.removeEdge(i, key);
+            if(this.removeEdge(i, key)!=null)
+                MC++;
         }
         MC++;
         return nodes.remove(key);

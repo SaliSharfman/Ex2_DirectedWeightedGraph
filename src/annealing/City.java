@@ -16,7 +16,7 @@ public class City {
 
     // Constructs a city at chosen Node
     public City(NodeData node){
-        this.node = node;
+        this.node = new Node(node);
 
     }
 
