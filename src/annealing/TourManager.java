@@ -14,6 +14,9 @@ public class TourManager {
     public static void addCity(City city) {
         destinationCities.add(city);
     }
+    
+    // Clear destinationCities
+    public static void deleteAll() { destinationCities.clear(); }
 
     // Get a city
     public static City getCity(int index){
