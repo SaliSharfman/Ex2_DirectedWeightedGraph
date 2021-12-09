@@ -9,14 +9,14 @@ You can load graphs from json to decapitate the graphs and save again as a json 
 We will now look at the graphical interface of the software </br>
 <img width="1093" alt="Screen Shot 2021-11-18 at 0 26 08" src="https://user-images.githubusercontent.com/86108478/145414449-bdc0f100-b673-4853-9a1f-f18745dfdaf3.png">
 
-In the file menu you can load a graph, save a graph and exit the program</br><img width="100" alt="Screen Shot 2021-11-18 at 0 26 08" src="https://user-images.githubusercontent.com/86108478/145414914-2169c8f6-b3c6-4d95-8db2-143b80588c8f.png"></br>
+In the File menu you can load a graph, save a graph and exit the program</br><img width="100" alt="Screen Shot 2021-11-18 at 0 26 08" src="https://user-images.githubusercontent.com/86108478/145414914-2169c8f6-b3c6-4d95-8db2-143b80588c8f.png"></br>
 
-In the Edit menu you can display numbers representing the node id's, and the edge weights, by clicking add node it will be possible to add nodes on the graph (this is possible when this button is bold), you can remove node given node id, connect edge given src and dest are the id of the start and end node and in the same way of the connection you can also remove edge. </br><img width="100" alt="Screen Shot 2021-11-18 at 0 26 08" src="https://user-images.githubusercontent.com/86108478/145415876-cd4df199-65ab-46fc-bbc1-ef7fd17bff96.png">
+In the Edit menu you can display numbers representing the node id's, and the edge weights,clicking again will remove the numbers.</br>By clicking add node it will be possible to add nodes on the graph (this is possible when this button is bold).By clicking Remove Node you can remove node given node id.</br>By clicking Connrct Edge you can connect edge with given src and dest that are the id of the start and end node.</br>Clicking Remove Edge in the same way of the connection you can also remove edge. </br><img width="100" alt="Screen Shot 2021-11-18 at 0 26 08" src="https://user-images.githubusercontent.com/86108478/145415876-cd4df199-65ab-46fc-bbc1-ef7fd17bff96.png">
 </br>
 
-In the file menu you can load a graph, save a graph and exit the program</br><img width="100" alt="Screen Shot 2021-11-18 at 0 26 08" src="https://user-images.githubusercontent.com/86108478/145416119-b6776909-bd98-42df-b9d1-d5446c832bc9.png"></br>
+In the Graph menu, by clicking on Is Connected, you can check whether the graph is connected, which means that each node has a path for each node</br>by clicking on Center, you will find the central node, the one from which the path to the other nodes is minimal,this node will be colored red. </br>By clicking on Clear Colors all the colors that have changed in the graph will return to their source.</br>Clicking Clear Graph will delete the graph and load a blank graph to apply a job.</br><img width="100" alt="Screen Shot 2021-11-18 at 0 26 08" src="https://user-images.githubusercontent.com/86108478/145416119-b6776909-bd98-42df-b9d1-d5446c832bc9.png"></br>
 
-In the file menu you can load a graph, save a graph and exit the program</br><img width="100" alt="Screen Shot 2021-11-18 at 0 26 08" src="https://user-images.githubusercontent.com/86108478/145416329-5a05201a-5fb7-48b1-88e8-1e15987ab656.png">
+In the Help menu, by clicking help you can open this README file to help yourself to use the program.</br><img width="100" alt="Screen Shot 2021-11-18 at 0 26 08" src="https://user-images.githubusercontent.com/86108478/145416329-5a05201a-5fb7-48b1-88e8-1e15987ab656.png">
 
 
 In the file menu you can load a graph, save a graph and exit the program</br><img width="100" alt="Screen Shot 2021-11-18 at 0 26 08" src="https://user-images.githubusercontent.com/86108478/145416436-499ab5f3-8e16-4212-8bae-f7179ca158e4.png"></br>
