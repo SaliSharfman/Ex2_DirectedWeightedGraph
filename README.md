@@ -1,1 +1,2 @@
-# Ex2_DirectedWeightedGraphasdgasgasdgszdgsdhsfhsfhsdgadgasdgsadgsdgfsadgasdgsadgsadgsadgsdgsdgsdgasdgadgadgadgadgadg
+# Ex2_DirectedWeightedGraphas
+read it nowwwwwww 
