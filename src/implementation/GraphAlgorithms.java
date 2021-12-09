@@ -220,7 +220,7 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
     }
     public List<NodeData> maketsp(List<NodeData> cities) {
 
-        if (this.graph.nodeSize() == 0 || !this.isConnected())
+        if (this.graph.nodeSize() == 0 || !this.isBindingComponent(this.graph,cities))
             return null;
 
         DirectedWeightedGraphAlgorithms graphAlgo = new GraphAlgorithms();
@@ -321,8 +321,25 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
         for(int i = 0; i<tour.getTour().size(); i++){
             ans.add(new Node(tour.getCity(i).getNode()));
         }
+        ans.add(ans.get(0));
 
         return ans;
+    }
+    private Boolean isBindingComponent(DirectedWeightedGraph graph,List<NodeData> cities){
+        DirectedWeightedGraphAlgorithms algo=new GraphAlgorithms();
+        for(NodeData node:cities)
+        {
+            algo.getGraph().addNode(graph.getNode(node.getKey()));
+        }
+        for(NodeData node:cities)
+        {
+            Iterator<EdgeData>eitr=graph.edgeIter(node.getKey());
+            while (eitr.hasNext()) {
+                EdgeData edge =eitr.next();
+                algo.getGraph().connect(edge.getSrc(),edge.getDest(),edge.getWeight());
+            }
+        }
+        return algo.isConnected();
     }
 
     @Override

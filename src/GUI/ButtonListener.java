@@ -25,6 +25,22 @@ public class ButtonListener implements ActionListener {
     public ButtonListener(GraphGUI gui) {
         this.gui = gui;
     }
+    private Boolean isBindingComponent(DirectedWeightedGraph graph,List<NodeData> cities){
+        DirectedWeightedGraphAlgorithms algo=new GraphAlgorithms();
+        for(NodeData node:cities)
+        {
+            algo.getGraph().addNode(graph.getNode(node.getKey()));
+        }
+        for(NodeData node:cities)
+        {
+            Iterator<EdgeData>eitr=graph.edgeIter(node.getKey());
+            while (eitr.hasNext()) {
+                EdgeData edge =eitr.next();
+                algo.getGraph().connect(edge.getSrc(),edge.getDest(),edge.getWeight());
+            }
+        }
+        return algo.isConnected();
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -42,8 +58,14 @@ public class ButtonListener implements ActionListener {
                     null,
                     null,
                     "G1.json"
+
             );
+
             if (filename!=null&&gui.canvas.getGraphDrawing().load(filename)){
+                this.gui.canvas.numbers=false;
+                this.gui.canvas.wasemtpy=false;
+                this.gui.canvas.wasBigger=false;
+                this.gui.numbersItem.setLabel("show numbers");
                 gui.canvas.paintComponent(gui.canvas.getGraphics());
                 JOptionPane.showMessageDialog(null, filename + " was loaded.");
             } else JOptionPane.showMessageDialog(null, "load failed.");
@@ -71,6 +93,10 @@ public class ButtonListener implements ActionListener {
                 }
         }
         if (buttonName.equals("Shortest path")) {
+            if(this.gui.canvas.getGraphDrawing().getGraph().nodeSize()==0){
+                JOptionPane.showMessageDialog(null, "The graph is empty!");
+                return;
+            }
             String srcinput,destinput;
             srcinput = (String)JOptionPane.showInputDialog(
                     this.gui,
@@ -132,6 +158,10 @@ public class ButtonListener implements ActionListener {
                 JOptionPane.showMessageDialog(null, "The shortest path distance from " + src + " to " + dest + " is " + this.gui.canvas.graphDrawing.shortestPathDist(src, dest) + ", the way is " + path + ".");
             }
         if (buttonName.equals("TSP")) {
+            if(this.gui.canvas.getGraphDrawing().getGraph().nodeSize()==0){
+                JOptionPane.showMessageDialog(null, "The graph is empty!");
+                return;
+            }
             String path;
             try {
                 path = (String) JOptionPane.showInputDialog(
@@ -161,8 +191,12 @@ public class ButtonListener implements ActionListener {
                     try {
                         tspnodes.add(this.gui.canvas.getGraphDrawing().getGraph().getNode(Integer.parseInt(keys[i])));
                     } catch (Exception ex) {
-                        JOptionPane.showMessageDialog(null, "Invalid path. Write only numbers and ','");
+                        JOptionPane.showMessageDialog(this.gui, "Invalid path. Write only numbers and ','");
                     }
+                }
+                if (!isBindingComponent(this.gui.canvas.getGraphDrawing().getGraph(),tspnodes))
+                {
+                    JOptionPane.showMessageDialog(this.gui, "This path is not a binding component.");return;
                 }
                 DirectedWeightedGraph graph1 = this.gui.canvas.getGraphDrawing().copy();
                 DirectedWeightedGraphAlgorithms algo1 = new GraphAlgorithms(graph1);
@@ -183,7 +217,8 @@ public class ButtonListener implements ActionListener {
                     path += this.gui.canvas.graphDrawing.getGraph().getNode(n.getKey()).getKey() + "->";
                 }
                 for (i = 0; i < arr.length - 1; i++) {
-                    this.gui.canvas.graphDrawing.getGraph().getEdge(arr[i], arr[i + 1]).setTag(2);
+                    if(this.gui.canvas.graphDrawing.getGraph().getEdge(arr[i], arr[i + 1])!=null)
+                        this.gui.canvas.graphDrawing.getGraph().getEdge(arr[i], arr[i + 1]).setTag(2);
                 }
                 path = path.substring(0, path.length() - 2);
 
@@ -192,7 +227,12 @@ public class ButtonListener implements ActionListener {
 
         }
         if (buttonName.equals("remove node")) {
-            int id;
+            if(this.gui.canvas.getGraphDrawing().getGraph().nodeSize()==0){
+                JOptionPane.showMessageDialog(null, "The graph is empty!");
+                return;
+            }
+            Iterator<NodeData>nitr=this.gui.canvas.getGraphDrawing().getGraph().nodeIter();
+            int id=nitr.next().getKey();
             String input;
             input = (String)JOptionPane.showInputDialog(
                     this.gui,
@@ -201,7 +241,7 @@ public class ButtonListener implements ActionListener {
                     JOptionPane.PLAIN_MESSAGE,
                     null,
                     null,
-                    ""
+                    ""+id
             );
                 try {
                     if (input.equals("")) throw new NullPointerException();
@@ -212,12 +252,21 @@ public class ButtonListener implements ActionListener {
                 }
                 if (this.gui.canvas.graphDrawing.getGraph().removeNode(id) != null) {
                     this.gui.canvas.paintComponent(this.gui.canvas.getGraphics());
+                    this.gui.canvas.wasBigger=true;
                     JOptionPane.showMessageDialog(null, "Node " + id + " removed.");
                 } else
                     JOptionPane.showMessageDialog(null, "Node " + id + " is not excised.");
 
         }
         if (buttonName.equals("remove edge")) {
+            if(this.gui.canvas.getGraphDrawing().getGraph().nodeSize()==0){
+                JOptionPane.showMessageDialog(null, "The graph is empty!");
+                return;
+            }
+            if(this.gui.canvas.getGraphDrawing().getGraph().edgeSize()==0){
+                JOptionPane.showMessageDialog(null, "The graph has no edges!");
+                return;
+            }
             int src, dest;
             String srcinput,destinput;
             srcinput = (String)JOptionPane.showInputDialog(
@@ -257,6 +306,14 @@ public class ButtonListener implements ActionListener {
                 JOptionPane.showMessageDialog(null, "Edge "+src+"->"+dest+" is not excised.");
         }
         if (buttonName.equals("connect edge")) {
+            if(this.gui.canvas.getGraphDrawing().getGraph().nodeSize()==0){
+                JOptionPane.showMessageDialog(null, "The graph is empty!");
+                return;
+            }
+            if(this.gui.canvas.getGraphDrawing().getGraph().nodeSize()==1){
+                JOptionPane.showMessageDialog(null, "The graph should have at least 2 nodes to make connection.");
+                return;
+            }
             int src, dest;
             String srcinput,destinput,weightinput;
             srcinput = (String)JOptionPane.showInputDialog(
@@ -322,6 +379,10 @@ public class ButtonListener implements ActionListener {
             this.gui.canvas.paintComponent(this.gui.canvas.getGraphics());
         }
         if (buttonName.equals("Center")) {
+            if(this.gui.canvas.getGraphDrawing().getGraph().nodeSize()==0){
+                JOptionPane.showMessageDialog(null, "The graph is empty!");
+                return;
+            }
             int center;
             try {
                 if (this.gui.canvas.graphDrawing.center() == null) throw new NullPointerException();
@@ -336,6 +397,10 @@ public class ButtonListener implements ActionListener {
 
         }
         if (buttonName.equals("Is Connected")) {
+            if(this.gui.canvas.getGraphDrawing().getGraph().nodeSize()==0){
+                JOptionPane.showMessageDialog(null, "The graph is empty!");
+                return;
+            }
             if (this.gui.canvas.graphDrawing.isConnected())
                 JOptionPane.showMessageDialog(null, "The graph is connected!");
             else
@@ -343,6 +408,10 @@ public class ButtonListener implements ActionListener {
         }
 
         if (buttonName.equals("Clear colors")) {
+            if(this.gui.canvas.getGraphDrawing().getGraph().nodeSize()==0){
+                JOptionPane.showMessageDialog(null, "The graph is empty!");
+                return;
+            }
             DirectedWeightedGraph g1 =this.gui.canvas.getGraphDrawing().getGraph();
             Iterator<NodeData>nitr=g1.nodeIter();
             while (nitr.hasNext())
@@ -354,12 +423,29 @@ public class ButtonListener implements ActionListener {
         }
 
         if (buttonName.equals("Clear graph")) {
+            if(this.gui.canvas.getGraphDrawing().getGraph().nodeSize()==0){
+                JOptionPane.showMessageDialog(null, "The graph is already empty!");
+                return;
+            }
             DirectedWeightedGraph g1 =new Graph();
             this.gui.canvas.getGraphDrawing().init(g1);
+            this.gui.canvas.numbers=false;
+            this.gui.numbersItem.setLabel("show numbers");
+            this.gui.canvas.paintComponent(this.gui.canvas.getGraphics());
+
+        }
+        if (buttonName.equals("show numbers")) {
+            if(this.gui.canvas.getGraphDrawing().getGraph().nodeSize()==0){
+                JOptionPane.showMessageDialog(null, "The graph is empty!");
+                return;
+            }
+            this.gui.numbersItem.setLabel("hide numbers");
+            this.gui.canvas.numbers=true;
             this.gui.canvas.paintComponent(this.gui.canvas.getGraphics());
         }
-        if (buttonName.equals("numbers")) {
-            this.gui.canvas.numbers=!this.gui.canvas.numbers;
+        if (buttonName.equals("hide numbers")) {
+            this.gui.numbersItem.setLabel("show numbers");
+            this.gui.canvas.numbers=false;
             this.gui.canvas.paintComponent(this.gui.canvas.getGraphics());
         }
         if(buttonName.equals("add node")) {

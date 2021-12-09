@@ -92,8 +92,10 @@ public class GraphGUI extends JFrame{
         pathItem.addActionListener(bl);
         tspItem.addActionListener(bl);
 
-        numbersItem = new MenuItem("numbers");
-
+        if (!this.canvas.numbers)
+            numbersItem = new MenuItem("show numbers");
+        else
+            numbersItem = new MenuItem("hide numbers");
         addNodeItem = new MenuItem("add node");
         removeNodeItem = new MenuItem("remove node");
         connectItem = new MenuItem("connect edge");
