@@ -37,8 +37,10 @@ public class GraphGUI extends JFrame{
         canvas = new GraphCanvas(this);
         canvas.setSize(Toolkit.getDefaultToolkit().getScreenSize());
         canvas.setAlignmentX(LEFT_ALIGNMENT);
-        add(canvas);
         setMenu();
+        add(canvas);
+
+
     }
 
     public void setMenu()

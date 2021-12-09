@@ -13,6 +13,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -80,7 +81,7 @@ public class ButtonListener implements ActionListener {
                     "save file",
                     JOptionPane.PLAIN_MESSAGE,null,
                     null,
-                    "G1.json"
+                    "Unknown"
             );
                 int dialogButton = JOptionPane.showConfirmDialog(
                         this.gui,
@@ -88,7 +89,7 @@ public class ButtonListener implements ActionListener {
                         "Warning",
                         JOptionPane.YES_NO_OPTION);
                 if (dialogButton == JOptionPane.YES_OPTION) {
-                    if (gui.canvas.getGraphDrawing().save(filename)) {
+                    if (gui.canvas.getGraphDrawing().save("data\\"+filename+".json")) {
                         JOptionPane.showMessageDialog(this.gui, "Graph saved.");
                     } else JOptionPane.showMessageDialog(this.gui, "save failed.");
                 }
@@ -472,21 +473,13 @@ public class ButtonListener implements ActionListener {
 
 
         if (buttonName.equals("Help")) {
-            System.out.println("help!!!!!");
-            try{
-                JFileChooser chooser= new JFileChooser();
-                chooser.setCurrentDirectory(new File("data\\G1.json"));
-                chooser.setFileFilter(new FileNameExtensionFilter("map","MAP"));
-                int value = chooser.showOpenDialog(null);
-                if(value == JFileChooser.APPROVE_OPTION){
-                    File selectedFile = chooser.getSelectedFile();
-                    String path = selectedFile.getAbsolutePath();
-
-                    File myFile = new File(path);
-                    Desktop.getDesktop().open(myFile);
-                }
-            }catch(Exception exception){
-                JOptionPane.showMessageDialog(null,exception);
+            File selectedFile = new File("files\\README.html");
+            String path = selectedFile.getAbsolutePath();
+            File myFile = new File(path);
+            try {
+                Desktop.getDesktop().open(myFile);
+            } catch (IOException ex) {
+                ex.printStackTrace();
             }
         }
 

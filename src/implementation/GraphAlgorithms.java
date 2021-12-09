@@ -366,7 +366,7 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
         //Write JSON to file
         try
         {
-            PrintWriter pw = new PrintWriter(new File("data/"+file));
+            PrintWriter pw = new PrintWriter(new File(file));
             DirectedWeightedGraph gcopy=this.copy();
             Iterator<NodeData>nitr=gcopy.nodeIter();
             while (nitr.hasNext())
