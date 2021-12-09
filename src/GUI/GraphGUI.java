@@ -36,9 +36,10 @@ public class GraphGUI extends JFrame{
         setLayout(new BoxLayout(this.getContentPane(), BoxLayout.X_AXIS));
         canvas = new GraphCanvas(this);
         canvas.setSize(Toolkit.getDefaultToolkit().getScreenSize());
-        canvas.setAlignmentX(LEFT_ALIGNMENT);
+        setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
         setMenu();
         add(canvas);
+
 
 
     }
@@ -49,6 +50,7 @@ public class GraphGUI extends JFrame{
         addbutton = new JRadioButton("add node");
         addbutton.addActionListener(bl);
         menuBar = new MenuBar();
+
 
         fileMenu = new Menu("File");
         editMenu = new Menu("Edit");
