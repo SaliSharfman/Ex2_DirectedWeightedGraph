@@ -6,14 +6,17 @@ import api.EdgeData;
 import api.NodeData;
 import implementation.Graph;
 import implementation.GraphAlgorithms;
+import implementation.Node;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import javax.swing.*;
+import javax.swing.text.html.Option;
 
 public class ButtonListener implements ActionListener {
 
@@ -29,157 +32,296 @@ public class ButtonListener implements ActionListener {
         String buttonName = e.getActionCommand();
 
 
-        if (buttonName.equals("load")) {
-            String filename = gui.fileinput.getText();
-            if (gui.canvas.getGraphDrawing().load(filename)) {
+        if (buttonName.equals("Load")) {
+
+            String filename = (String)JOptionPane.showInputDialog(
+                    this.gui,
+                    "Write the name of the file.",
+                    "load file",
+                    JOptionPane.PLAIN_MESSAGE,
+                    null,
+                    null,
+                    "G1.json"
+            );
+            if (filename!=null&&gui.canvas.getGraphDrawing().load(filename)){
                 gui.canvas.paintComponent(gui.canvas.getGraphics());
                 JOptionPane.showMessageDialog(null, filename + " was loaded.");
             } else JOptionPane.showMessageDialog(null, "load failed.");
 
 
         }
-        if (buttonName.equals("save")) {
-            String filename = gui.fileinput.getText();
-            if (gui.canvas.getGraphDrawing().save(filename)) {
-                JOptionPane.showMessageDialog(null, "Graph saved.");
-            } else JOptionPane.showMessageDialog(null, "save failed.");
-
-
+        if (buttonName.equals("Save")) {
+            String filename = (String)JOptionPane.showInputDialog(
+                    this.gui,
+                    "Write the name of the file.",
+                    "save file",
+                    JOptionPane.PLAIN_MESSAGE,null,
+                    null,
+                    "G1.json"
+            );
+                int dialogButton = JOptionPane.showConfirmDialog(
+                        this.gui,
+                        "Are you sure you want to save?",
+                        "Warning",
+                        JOptionPane.YES_NO_OPTION);
+                if (dialogButton == JOptionPane.YES_OPTION) {
+                    if (gui.canvas.getGraphDrawing().save(filename)) {
+                        JOptionPane.showMessageDialog(this.gui, "Graph saved.");
+                    } else JOptionPane.showMessageDialog(this.gui, "save failed.");
+                }
         }
-        if (buttonName.equals("ok")) {
-            if (this.gui.canvas.radioButtonState.equals("remove node")) {
-                int id;
-                try {
-                    if (this.gui.canvas.frame.nodeinput.getText() == "") throw new NullPointerException();
-                    id = Integer.parseInt(this.gui.canvas.frame.nodeinput.getText());
-                } catch (NullPointerException ex) {
-                    return;
+        if (buttonName.equals("Shortest path")) {
+            String srcinput,destinput;
+            srcinput = (String)JOptionPane.showInputDialog(
+                    this.gui,
+                    "Write the key of the starting node.",
+                    "input src",
+                    JOptionPane.PLAIN_MESSAGE,
+                    null,
+                    null,
+                    ""
+            );
+            int src, dest;
+            try {
+                if (srcinput.equals("")) throw new NullPointerException();
+                else {
+                      destinput = (String)JOptionPane.showInputDialog(
+                            this.gui,
+                            "Write the key of the ending node.",
+                            "input dest",
+                            JOptionPane.PLAIN_MESSAGE,
+                            null,
+                            null,
+                            ""
+                    );
                 }
-                this.gui.canvas.graphDrawing.getGraph().removeNode(id);
-                this.gui.canvas.paintComponent(this.gui.canvas.getGraphics());
-            }
-            if (this.gui.canvas.radioButtonState.equals("connect edge")) {
-                int src, dest;
-                double w;
-                try {
-                    if (this.gui.canvas.frame.srcinput.getText() == "") throw new NullPointerException();
-                    if (this.gui.canvas.frame.destinput.getText() == "") throw new NullPointerException();
-                    src = Integer.parseInt(this.gui.canvas.frame.srcinput.getText());
-                    dest = Integer.parseInt(this.gui.canvas.frame.destinput.getText());}
 
-                 catch (NullPointerException ex) {
-                    return;
-                }
-                String str="";
-                if(this.gui.canvas.frame.winput.getText().equals(str)){
-                    w = 1;}
-                else{
-                    w=Double.parseDouble(this.gui.canvas.frame.winput.getText());}
-                this.gui.canvas.graphDrawing.getGraph().connect(src, dest, w);
-                this.gui.canvas.paintComponent(this.gui.canvas.getGraphics());
+                if (destinput.equals("")) throw new NullPointerException();
+                src = Integer.parseInt(srcinput);
+                dest = Integer.parseInt(destinput);
+            } catch (NullPointerException ex) {
+                return;
             }
-            if (this.gui.canvas.radioButtonState.equals("remove edge")) {
-                int src, dest;
-                try {
-                    if (this.gui.canvas.frame.srcinput.getText() == "") throw new NullPointerException();
-                    if (this.gui.canvas.frame.destinput.getText() == "") throw new NullPointerException();
-                    src = Integer.parseInt(this.gui.canvas.frame.srcinput.getText());
-                    dest = Integer.parseInt(this.gui.canvas.frame.destinput.getText());
-                } catch (NullPointerException ex) {
-                    return;
-                }
-                this.gui.canvas.graphDrawing.getGraph().removeEdge(src, dest);
-                this.gui.canvas.paintComponent(this.gui.canvas.getGraphics());
+            List<NodeData> list;
+            try {
+                list = this.gui.canvas.graphDrawing.shortestPath(src, dest);
+                if (list==null) throw new NullPointerException();
+            }
+            catch (NullPointerException exception)
+            {
+                JOptionPane.showMessageDialog(null, "Path from "+src+" to "+dest+" is not excised.");
+                return;
             }
 
 
 
-            if (this.gui.canvas.radioButtonState.equals("shortest path")) {
-                int src, dest;
-                try {
-                    if (this.gui.canvas.frame.srcinput.getText() == "") throw new NullPointerException();
-                    if (this.gui.canvas.frame.destinput.getText() == "") throw new NullPointerException();
-                    src = Integer.parseInt(this.gui.canvas.frame.srcinput.getText());
-                    dest = Integer.parseInt(this.gui.canvas.frame.destinput.getText());
-                } catch (NullPointerException ex) {
-                    return;
-                }
-                List<NodeData> list = this.gui.canvas.graphDrawing.shortestPath(src, dest);
-                String path="";
-                int[]arr=new int[list.size()];
-                int i=0;
+                String path = "";
+                int[] arr = new int[list.size()];
+                int i = 0;
                 for (NodeData n : list) {
-                    arr[i]=n.getKey();i++;
-                    path+=this.gui.canvas.graphDrawing.getGraph().getNode(n.getKey()).getKey()+"->";
+                    arr[i] = n.getKey();
+                    i++;
+                    path += this.gui.canvas.graphDrawing.getGraph().getNode(n.getKey()).getKey() + "->";
                 }
-                for (i = 0; i < arr.length-1; i++) {
-                    this.gui.canvas.graphDrawing.getGraph().getEdge(arr[i],arr[i+1]).setTag(2);
+                for (i = 0; i < arr.length - 1; i++) {
+                    this.gui.canvas.graphDrawing.getGraph().getEdge(arr[i], arr[i + 1]).setTag(2);
                 }
-                path=path.substring(0,path.length()-2);
+                path = path.substring(0, path.length() - 2);
 
                 this.gui.canvas.paintComponent(this.gui.canvas.getGraphics());
-                JOptionPane.showMessageDialog(null, "The shortest path distance from " + src + " to " + dest + " is " + this.gui.canvas.graphDrawing.shortestPathDist(src, dest) +", the way is "+path+ ".");
-
+                JOptionPane.showMessageDialog(null, "The shortest path distance from " + src + " to " + dest + " is " + this.gui.canvas.graphDrawing.shortestPathDist(src, dest) + ", the way is " + path + ".");
             }
+        if (buttonName.equals("TSP")) {
+            String path;
+            try {
+                path = (String) JOptionPane.showInputDialog(
+                        this.gui,
+                        "Write keys for TSP seperates by ,",
+                        "input TSP",
+                        JOptionPane.PLAIN_MESSAGE,
+                        null,
+                        null,
+                        ""
+                );
 
-
-            if (this.gui.canvas.radioButtonState.equals("tsp")) {
-                String path;
-                try {
-                    path=this.gui.canvas.frame.tspinput.getText();
                     if (path.equals("")) throw new NullPointerException();
-                } catch (NullPointerException ex) {
+                } catch(NullPointerException ex){
                     JOptionPane.showMessageDialog(null, "No input");
                     return;
                 }
-                String[]keys;
+                String[] keys;
                 try {
-                    keys=path.split(",");
-                }
-                catch (Exception ex)
-                {
+                    keys = path.split(",");
+                } catch (Exception ex) {
                     JOptionPane.showMessageDialog(null, "Invalid path. Write only numbers and ','");
                     return;
                 }
-                List<NodeData>tspnodes=new LinkedList<NodeData>();
-                for (int i = 0; i <keys.length ; i++) {
+                List<NodeData> tspnodes = new LinkedList<NodeData>();
+                for (int i = 0; i < keys.length; i++) {
                     try {
                         tspnodes.add(this.gui.canvas.getGraphDrawing().getGraph().getNode(Integer.parseInt(keys[i])));
-                    }
-                    catch (Exception ex) {
+                    } catch (Exception ex) {
                         JOptionPane.showMessageDialog(null, "Invalid path. Write only numbers and ','");
                     }
                 }
-                DirectedWeightedGraph graph1=this.gui.canvas.getGraphDrawing().copy();
-                DirectedWeightedGraphAlgorithms algo1=new GraphAlgorithms(graph1);
+                DirectedWeightedGraph graph1 = this.gui.canvas.getGraphDrawing().copy();
+                DirectedWeightedGraphAlgorithms algo1 = new GraphAlgorithms(graph1);
                 try {
-                    tspnodes=algo1.tsp(tspnodes);
-                    if (tspnodes==null) throw new NullPointerException();
-                }
-                catch (NullPointerException ex)
-                {
+                    tspnodes = algo1.tsp(tspnodes);
+                    if (tspnodes == null) throw new NullPointerException();
+                } catch (NullPointerException ex) {
                     JOptionPane.showMessageDialog(null, "No tsp path with that nodes");
 
                 }
 
-                path="";
-                int[]arr=new int[tspnodes.size()];
-                int i=0;
+                path = "";
+                int[] arr = new int[tspnodes.size()];
+                int i = 0;
                 for (NodeData n : tspnodes) {
-                    arr[i]=n.getKey();i++;
-                    path+=this.gui.canvas.graphDrawing.getGraph().getNode(n.getKey()).getKey()+"->";
+                    arr[i] = n.getKey();
+                    i++;
+                    path += this.gui.canvas.graphDrawing.getGraph().getNode(n.getKey()).getKey() + "->";
                 }
-                for (i = 0; i < arr.length-1; i++) {
-                    this.gui.canvas.graphDrawing.getGraph().getEdge(arr[i],arr[i+1]).setTag(2);
+                for (i = 0; i < arr.length - 1; i++) {
+                    this.gui.canvas.graphDrawing.getGraph().getEdge(arr[i], arr[i + 1]).setTag(2);
                 }
-                path=path.substring(0,path.length()-2);
+                path = path.substring(0, path.length() - 2);
 
                 this.gui.canvas.paintComponent(this.gui.canvas.getGraphics());
-                JOptionPane.showMessageDialog(null, "The tsp path is: "+path+ ".");
-            }
+                JOptionPane.showMessageDialog(null, "The tsp path is: " + path + ".");
 
         }
-        if (buttonName.equals("center")) {
+        if (buttonName.equals("remove node")) {
+            int id;
+            String input;
+            input = (String)JOptionPane.showInputDialog(
+                    this.gui,
+                    "Write a node key to remove.",
+                    "input key",
+                    JOptionPane.PLAIN_MESSAGE,
+                    null,
+                    null,
+                    ""
+            );
+                try {
+                    if (input.equals("")) throw new NullPointerException();
+                    id = Integer.parseInt(input);
+                } catch (NullPointerException ex) {
+                    JOptionPane.showMessageDialog(null, "No input");
+                    return;
+                }
+                if (this.gui.canvas.graphDrawing.getGraph().removeNode(id) != null) {
+                    this.gui.canvas.paintComponent(this.gui.canvas.getGraphics());
+                    JOptionPane.showMessageDialog(null, "Node " + id + " removed.");
+                } else
+                    JOptionPane.showMessageDialog(null, "Node " + id + " is not excised.");
+
+        }
+        if (buttonName.equals("remove edge")) {
+            int src, dest;
+            String srcinput,destinput;
+            srcinput = (String)JOptionPane.showInputDialog(
+                    this.gui,
+                    "Write the key of the source node to remove.",
+                    "input src",
+                    JOptionPane.PLAIN_MESSAGE,
+                    null,
+                    null,
+                    ""
+            );
+            try {
+                if (srcinput.equals("")) throw new NullPointerException();
+                else {
+                    destinput = (String)JOptionPane.showInputDialog(
+                            this.gui,
+                            "Write the key of the dest node to remove.",
+                            "input dest",
+                            JOptionPane.PLAIN_MESSAGE,
+                            null,
+                            null,
+                            ""
+                    );
+                }
+
+                if (destinput.equals("")) throw new NullPointerException();
+                src = Integer.parseInt(srcinput);
+                dest = Integer.parseInt(destinput);
+            } catch (NullPointerException ex) {
+                return;
+            }
+            if(this.gui.canvas.graphDrawing.getGraph().removeEdge(src, dest)!=null){
+                this.gui.canvas.paintComponent(this.gui.canvas.getGraphics());
+                JOptionPane.showMessageDialog(null, "Edge "+src+"->"+dest+" removed.");
+            }
+            else
+                JOptionPane.showMessageDialog(null, "Edge "+src+"->"+dest+" is not excised.");
+        }
+        if (buttonName.equals("connect edge")) {
+            int src, dest;
+            String srcinput,destinput,weightinput;
+            srcinput = (String)JOptionPane.showInputDialog(
+                    this.gui,
+                    "Write the key of the source node to connect.",
+                    "input src",
+                    JOptionPane.PLAIN_MESSAGE,
+                    null,
+                    null,
+                    ""
+            );
+
+            try {
+                if (srcinput.equals("")) throw new NullPointerException();
+                else {
+                    try {
+                        src = Integer.parseInt(srcinput);
+                    }
+                    catch (NumberFormatException exception)
+                    {
+                        JOptionPane.showMessageDialog(null, "Use only numbers.");return;
+                    }
+
+                    destinput = (String)JOptionPane.showInputDialog(
+                            this.gui,
+                            "Write the key of the dest node to connect.",
+                            "input dest",
+                            JOptionPane.PLAIN_MESSAGE,
+                            null,
+                            null,
+                            ""
+                    );
+                }
+
+                if (destinput.equals("")) throw new NullPointerException();
+
+                try {
+                    dest = Integer.parseInt(destinput);
+                }
+                catch (NumberFormatException exception)
+                {
+                    JOptionPane.showMessageDialog(null, "Use only numbers.");return;
+                }
+
+            } catch (NullPointerException ex) {
+                return;
+            }
+            double w;
+            weightinput = (String)JOptionPane.showInputDialog(
+                    this.gui,
+                    "set weight for the connection. (defult weight will be 1).",
+                    "input weight",
+                    JOptionPane.PLAIN_MESSAGE,
+                    null,
+                    null,
+                    "1"
+            );
+            if(weightinput.equals("")){
+                w = 1;}
+            else{
+                w=Double.parseDouble(weightinput);}
+            this.gui.canvas.graphDrawing.getGraph().connect(src, dest, w);
+            this.gui.canvas.paintComponent(this.gui.canvas.getGraphics());
+        }
+        if (buttonName.equals("Center")) {
             int center;
             try {
                 if (this.gui.canvas.graphDrawing.center() == null) throw new NullPointerException();
@@ -193,23 +335,14 @@ public class ButtonListener implements ActionListener {
             JOptionPane.showMessageDialog(null, "The center of the graph is node number " + this.gui.canvas.graphDrawing.center().getKey());
 
         }
-        if (buttonName.equals("is connected")) {
+        if (buttonName.equals("Is Connected")) {
             if (this.gui.canvas.graphDrawing.isConnected())
                 JOptionPane.showMessageDialog(null, "The graph is connected!");
             else
                 JOptionPane.showMessageDialog(null, "The graph is not connected!");
         }
-        if (buttonName.equals("cancel")) {
-           this.gui.fileinput.setText("");
-            this.gui.nodeinput.setText("");
-            this.gui.srcinput.setText("");
-            this.gui.destinput.setText("");
-            this.gui.winput.setText("");
-            this.gui.tspinput.setText("");
 
-        }
-
-        if (buttonName.equals("clear colors")) {
+        if (buttonName.equals("Clear colors")) {
             DirectedWeightedGraph g1 =this.gui.canvas.getGraphDrawing().getGraph();
             Iterator<NodeData>nitr=g1.nodeIter();
             while (nitr.hasNext())
@@ -220,7 +353,7 @@ public class ButtonListener implements ActionListener {
             this.gui.canvas.paintComponent(this.gui.canvas.getGraphics());
         }
 
-        if (buttonName.equals("clear graph")) {
+        if (buttonName.equals("Clear graph")) {
             DirectedWeightedGraph g1 =new Graph();
             this.gui.canvas.getGraphDrawing().init(g1);
             this.gui.canvas.paintComponent(this.gui.canvas.getGraphics());
@@ -228,6 +361,26 @@ public class ButtonListener implements ActionListener {
         if (buttonName.equals("numbers")) {
             this.gui.canvas.numbers=!this.gui.canvas.numbers;
             this.gui.canvas.paintComponent(this.gui.canvas.getGraphics());
+        }
+        if(buttonName.equals("add node")) {
+          //  gui.buttons[0].setAction(gui.buttons[0].setSelected(!gui.buttons[0].isSelected()));
+            gui.addbutton.setSelected(!gui.addbutton.isSelected());
+            if(gui.addbutton.isSelected()) {
+                gui.canvas.setRadioButtonState("add node");
+                gui.canvas.setIsEnabled(true);
+                gui.addNodeItem.setFont(new Font("Dialog",Font.BOLD,12));
+            }
+
+            else {
+                gui.addNodeItem.setFont(new Font("Dialog",Font.PLAIN,12));
+                gui.canvas.setRadioButtonState("");
+                gui.canvas.setIsEnabled(false);
+                gui.canvas.repaint();
+            }
+
+        }
+        if (buttonName.equals("Exit")) {
+            this.gui.dispatchEvent(new WindowEvent(this.gui, WindowEvent.WINDOW_CLOSING));
         }
 
 

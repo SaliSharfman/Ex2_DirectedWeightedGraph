@@ -131,6 +131,7 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
 
     }
 
+
     @Override
     public double shortestPathDist(int src, int dest) {
         if (src == dest)
@@ -354,7 +355,7 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
             while (nitr.hasNext())
             {
                 NodeData node=nitr.next();
-                GeoLocation g = new Geo_Location((node.getLocation().x()+35000)/1000,(node.getLocation().y()+32000)/1000,(node.getLocation().z())/100);
+                GeoLocation g = new Geo_Location(node.getLocation().x(),node.getLocation().y(),node.getLocation().z());
                 node.setLocation(g);
             }
             JsonGraph gr=new JsonGraph(gcopy);
@@ -389,7 +390,7 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
         while (nitr.hasNext())
         {
             NodeData node=nitr.next();
-            GeoLocation g = new Geo_Location((node.getLocation().x()*1000)-35000,(node.getLocation().y()*1000)-32000,node.getLocation().z()*100);
+            GeoLocation g = new Geo_Location(node.getLocation().x(),node.getLocation().y(),node.getLocation().z());
             node.setLocation(g);
         }
         this.init(ans);

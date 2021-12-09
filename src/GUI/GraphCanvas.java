@@ -1,9 +1,8 @@
 package GUI;
 
-import api.DirectedWeightedGraphAlgorithms;
-import api.EdgeData;
-import api.NodeData;
+import api.*;
 import implementation.Edge;
+import implementation.Geo_Location;
 import implementation.GraphAlgorithms;
 import implementation.Node;
 
@@ -23,7 +22,8 @@ public class GraphCanvas extends JPanel implements MouseListener{
     private static boolean isEnabled;
     protected static DirectedWeightedGraphAlgorithms graphDrawing;
     private static NodeData endpt1,endpt2;
-    public boolean numbers=false;
+    public boolean numbers=true;
+    double minx,miny,maxx,maxy;
 
     /*
      * One Parameter Constructor of a GraphCanvas
@@ -32,87 +32,37 @@ public class GraphCanvas extends JPanel implements MouseListener{
      */
     public GraphCanvas(GraphGUI frame)
     {
-
         this.frame=frame;
         isEnabled = false;
         radioButtonState="1";
         graphDrawing = new GraphAlgorithms();
         graphDrawing.load(frame.getFileName());
+        preload(graphDrawing.getGraph());
         this.addMouseListener(this);
-        this.frame.getContentPane().setBackground(new Color(21, 208, 178));
         this.setBackground(Color.GRAY);
-        this.setMaximumSize(new Dimension(1200,1200));
-
-
-
+        this.setMaximumSize(Toolkit.getDefaultToolkit().getScreenSize());
     }
-
-    /*
-     * @param e sets whether the user can edit on the
-     * canvas or not
-     */
     public void setIsEnabled(boolean e) {
         isEnabled = e;
     }
-
-    /*
-     * @param v sets the first vertex the user
-     * clicked on
-     */
-    public void setEndpt1(NodeData v) {
-        endpt1=v;
-    }
-
-    /*
-     * @param v sets the second vertex the user
-     * clicked on
-     */
-    public void setEndpt2(NodeData v) {
-        endpt2=v;
-    }
-
-    /*
-     * @return the first vertex the user clicked on
-     */
-    public NodeData getEndpt1() {
-        return endpt1;
-    }
-
-    public NodeData getEndpt2() {
-        return endpt2;
-    }
     public DirectedWeightedGraphAlgorithms getGraphDrawing(){return graphDrawing;}
-
-    public boolean getIsEnabled() {
-        return isEnabled;
-    }
-
     public void setRadioButtonState(String s) {
         radioButtonState=s;
     }
 
-
-    public String getRadioButtonState() {
-        return radioButtonState;
-    }
-
     @Override
     public void mouseClicked(MouseEvent e){
+        //preload(this.getGraphDrawing().getGraph());
+        double unitX=this.getWidth()/Math.abs(maxx-minx)*0.975;
+        double unitY=this.getWidth()/Math.abs(maxy-miny)*0.9;
+        double x = (e.getX()/unitX)+minx;
+        double y = (e.getY()/unitY)+miny;
 
-        int x = e.getX();
-        int y = e.getY();
-
-        //DEBUG CODE
         if(radioButtonState.equals("")) {
             this.paintComponent(this.getGraphics());
         }
 
         if(!isEnabled)return;
-
-        /*
-         * (Add A Vertex)
-         * Adds a vertex to the canvas
-         */
 
         if(radioButtonState.equals("add node")) {
             int id=0;
@@ -127,7 +77,27 @@ public class GraphCanvas extends JPanel implements MouseListener{
         }
 
 }
+    private void preload(DirectedWeightedGraph graph)
+    {
+        if (graph.nodeSize()==0)
+            return;
+        Iterator<NodeData>nitr=graph.nodeIter();
+        NodeData node= nitr.next();
+        minx=node.getLocation().x();
+        miny=node.getLocation().y();
+        maxx=node.getLocation().x();
+        maxy=node.getLocation().y();
 
+        while (nitr.hasNext())
+        {
+            node= nitr.next();
+            if(node.getLocation().x()<minx)minx=node.getLocation().x();
+            if(node.getLocation().x()>maxx)maxx=node.getLocation().x();
+            if(node.getLocation().y()<miny)miny=node.getLocation().y();
+            if(node.getLocation().y()>maxy)maxy=node.getLocation().y();
+
+        }
+    }
 
     private void drawArrowLine(Graphics g, int x1, int y1, int x2, int y2, int d, int h) {
         int dx = x2 - x1, dy = y2 - y1;
@@ -150,48 +120,57 @@ public class GraphCanvas extends JPanel implements MouseListener{
         g.fillPolygon(xpoints, ypoints, 3);
     }
     public void paintComponent(Graphics g){
+        preload(this.getGraphDrawing().getGraph());
         super.paintComponent(g);
+        double unitX=this.getWidth()/Math.abs(maxx-minx)*0.975;
+        double unitY=this.getWidth()/Math.abs(maxy-miny)*0.9;
 
 
-        Graphics2D g2 = (Graphics2D) g;
-        //g2.scale(30,40);
-
-        /*
-         * Draws all the Vertices that the user has
-         * placed on the canvas
-         */
-
-        Iterator<EdgeData>eitr=graphDrawing.getGraph().edgeIter();
+        DirectedWeightedGraph graph=graphDrawing.getGraph();
+        Iterator<EdgeData>eitr=graph.edgeIter();
         while (eitr.hasNext()) {
             EdgeData edge = eitr.next();
-            Point from = new Point((int)(graphDrawing.getGraph().getNode(edge.getSrc()).getLocation().x()),(int)(graphDrawing.getGraph().getNode(edge.getSrc()).getLocation().y()));
-            Point to = new Point((int)(graphDrawing.getGraph().getNode(edge.getDest()).getLocation().x()),(int)(graphDrawing.getGraph().getNode(edge.getDest()).getLocation().y()));
+
+            double xsrc=graph.getNode(edge.getSrc()).getLocation().x();
+            xsrc=((xsrc-minx)*unitX)+12;
+
+            double ysrc=graph.getNode(edge.getSrc()).getLocation().y();
+            ysrc=((ysrc-miny)*unitY)+12;
+
+            double xdest=graph.getNode(edge.getDest()).getLocation().x();
+            xdest=((xdest-minx)*unitX)+12;
+
+            double ydest=graph.getNode(edge.getDest()).getLocation().y();
+            ydest=((ydest-miny)*unitY)+12;
+
             switch (edge.getTag()) {
-                case 0:g2.setColor(Color.darkGray);break;
-                case 1:g2.setColor(Color.RED);break;
-                case 2:g2.setColor(Color.GREEN);break;
+                case 0:g.setColor(Color.darkGray);break;
+                case 1:g.setColor(Color.RED);break;
+                case 2:g.setColor(Color.GREEN);break;
             }
-            g2.setStroke(new BasicStroke(5));
-            drawArrowLine(g2,from.x,from.y,to.x-1,to.y-1,25,10);
+           // g.setStroke(new BasicStroke(5));
+            drawArrowLine(g,(int)xsrc,(int)ysrc,(int)xdest,(int)ydest,30,7);
                   if(edge.getWeight()!=0&&numbers) {
-                      g2.setFont(new Font("Dialog",Font.BOLD,18));
-                      g2.drawString(""+edge.getWeight(), ((from.x+to.x)/2)+20 , ((from.y+to.y)/2));
+                      g.setFont(new Font("Dialog",Font.BOLD,18));
+                      g.drawString(""+edge.getWeight(), (((int)xsrc+(int)xdest)/2)+20 , (((int)ysrc+(int)ydest)/2));
                 }
         }
-        Iterator<NodeData>nitr=graphDrawing.getGraph().nodeIter();
+        Iterator<NodeData>nitr=graph.nodeIter();
         while (nitr.hasNext()){
             NodeData node=nitr.next();
-            Shape vertex = new Ellipse2D.Double(node.getLocation().x()-5, node.getLocation().y()-5, 12, 12);
+            int x = (int)((node.getLocation().x()-minx)*unitX);
+            int y = (int)((node.getLocation().y()-miny)*unitY);
             switch (node.getTag()) {
-                case 0:g2.setColor(Color.white);break;
-                case 1:g2.setColor(Color.RED);break;
-                case 2:g2.setColor(Color.GREEN);break;
+                case 0:g.setColor(Color.darkGray);break;
+                case 1:g.setColor(Color.RED);break;
+                case 2:g.setColor(Color.GREEN);break;
             }
+            g.fillOval(x,y,24,24);
             if (numbers) {
-              g2.setFont(new Font("Dialog",Font.BOLD,18));
-              g2.drawString(""+node.getKey(),(int)(node.getLocation().x()+20),(int) node.getLocation().y());
+                g.setColor(Color.white);
+                g.setFont(new Font("Dialog",Font.BOLD,18));
+                g.drawString(""+node.getKey(),x+7,y+17);
             }
-            g2.fill(vertex);
         }
 
     }
@@ -207,5 +186,6 @@ public class GraphCanvas extends JPanel implements MouseListener{
 
     @Override
     public void mouseReleased(MouseEvent arg0) {}
+
 
 }
