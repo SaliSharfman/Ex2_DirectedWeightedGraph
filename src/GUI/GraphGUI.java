@@ -8,8 +8,8 @@ public class GraphGUI extends JFrame{
     private String filename;
     private ButtonListener bl;
     MenuBar menuBar;
-    Menu fileMenu,editMenu,graphMenu,helpMenu,pathMenu;
-    MenuItem loadItem,saveItem,exitItem,isConectedItem,centerItem,clearColorsItem,clearItem,pathItem,tspItem,numbersItem,addNodeItem,removeNodeItem,connectItem,removeEdgeItem ;
+    Menu helpMenu,fileMenu,editMenu,graphMenu,pathMenu;
+    MenuItem helpMenui,loadItem,saveItem,exitItem,isConectedItem,centerItem,clearColorsItem,clearItem,pathItem,tspItem,numbersItem,addNodeItem,removeNodeItem,connectItem,removeEdgeItem ;
     JRadioButton addbutton;
 
 
@@ -52,6 +52,7 @@ public class GraphGUI extends JFrame{
         editMenu = new Menu("Edit");
         graphMenu = new Menu("Graph");
         helpMenu = new Menu("Help");
+        helpMenui = new MenuItem("Help");
         pathMenu = new Menu("Path");
 
 
@@ -111,12 +112,14 @@ public class GraphGUI extends JFrame{
         addNodeItem.addActionListener(bl);
         removeNodeItem.addActionListener(bl);
         connectItem.addActionListener(bl);
+        helpMenui.addActionListener(bl);
         removeEdgeItem.addActionListener(bl);
 
         menuBar.add(fileMenu);
         menuBar.add(editMenu);
         menuBar.add(graphMenu);
         menuBar.add(pathMenu);
+        helpMenu.add(helpMenui);
         menuBar.add(helpMenu);
         this.setMenuBar(menuBar);
         this.setVisible(true);

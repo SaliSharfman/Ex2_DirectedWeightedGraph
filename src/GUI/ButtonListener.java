@@ -12,10 +12,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
+import java.io.File;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.text.html.Option;
 
 public class ButtonListener implements ActionListener {
@@ -49,27 +51,26 @@ public class ButtonListener implements ActionListener {
 
 
         if (buttonName.equals("Load")) {
-
-            String filename = (String)JOptionPane.showInputDialog(
-                    this.gui,
-                    "Write the name of the file.",
-                    "load file",
-                    JOptionPane.PLAIN_MESSAGE,
-                    null,
-                    null,
-                    "G1.json"
-
-            );
-
-            if (filename!=null&&gui.canvas.getGraphDrawing().load(filename)){
-                this.gui.canvas.numbers=false;
-                this.gui.canvas.wasemtpy=false;
-                this.gui.canvas.wasBigger=false;
-                this.gui.numbersItem.setLabel("show numbers");
-                gui.canvas.paintComponent(gui.canvas.getGraphics());
-                JOptionPane.showMessageDialog(null, filename + " was loaded.");
-            } else JOptionPane.showMessageDialog(null, "load failed.");
-
+            try{
+                JFileChooser chooser= new JFileChooser();
+                chooser.setCurrentDirectory(new File("data\\"));
+                chooser.setFileFilter(new FileNameExtensionFilter(".json","json"));
+                int value = chooser.showOpenDialog(null);
+                if(value == JFileChooser.APPROVE_OPTION){
+                    File selectedFile = chooser.getSelectedFile();
+                    String filename = selectedFile.getAbsolutePath();
+                    if (filename!=null&&gui.canvas.getGraphDrawing().load(filename)){
+                        this.gui.canvas.numbers=false;
+                        this.gui.canvas.wasemtpy=false;
+                        this.gui.canvas.wasBigger=false;
+                        this.gui.numbersItem.setLabel("show numbers");
+                        gui.canvas.paintComponent(gui.canvas.getGraphics());
+                        JOptionPane.showMessageDialog(null, filename + " was loaded.");
+                    } else JOptionPane.showMessageDialog(null, "load failed.");
+                }
+            }catch(Exception ex){
+                JOptionPane.showMessageDialog(null,ex);
+            }
 
         }
         if (buttonName.equals("Save")) {
@@ -467,6 +468,26 @@ public class ButtonListener implements ActionListener {
         }
         if (buttonName.equals("Exit")) {
             this.gui.dispatchEvent(new WindowEvent(this.gui, WindowEvent.WINDOW_CLOSING));
+        }
+
+
+        if (buttonName.equals("Help")) {
+            System.out.println("help!!!!!");
+            try{
+                JFileChooser chooser= new JFileChooser();
+                chooser.setCurrentDirectory(new File("data\\G1.json"));
+                chooser.setFileFilter(new FileNameExtensionFilter("map","MAP"));
+                int value = chooser.showOpenDialog(null);
+                if(value == JFileChooser.APPROVE_OPTION){
+                    File selectedFile = chooser.getSelectedFile();
+                    String path = selectedFile.getAbsolutePath();
+
+                    File myFile = new File(path);
+                    Desktop.getDesktop().open(myFile);
+                }
+            }catch(Exception exception){
+                JOptionPane.showMessageDialog(null,exception);
+            }
         }
 
 

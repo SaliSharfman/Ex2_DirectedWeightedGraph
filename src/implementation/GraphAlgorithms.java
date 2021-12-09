@@ -395,7 +395,7 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
             builder.registerTypeAdapter(Graph.class, new GraphJsonDeserializer());
             Gson gson = builder.create();
             //continue as usual..
-            FileReader reader = new FileReader("data/"+file);
+            FileReader reader = new FileReader(file);
             ans = gson.fromJson(reader, Graph.class);
 
 
