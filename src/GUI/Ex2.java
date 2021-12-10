@@ -85,16 +85,10 @@ public class Ex2 {
 
 
     public static void main(String[] args) {
-//       DirectedWeightedGraph graph = getGrapg("G3.json");
-//        DirectedWeightedGraphAlgorithms graphAlgo =getGrapgAlgo("data/G3.json");
-//        graphAlgo.load("G1.json");
-//      //  System.out.println(graph);
-//        //System.out.println(graphAlgo.center());
-//        graphAlgo.save("graph1.json");
-//
-//       System.out.println(graphAlgo.load("graph1.json"));
-
-        runGUI("data//G1.json");
+        if(args.length>0)
+           runGUI(args[0]);
+        else
+           runGUI("data\\G1.json");
 
 
 

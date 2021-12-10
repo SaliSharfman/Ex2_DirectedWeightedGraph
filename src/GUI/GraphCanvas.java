@@ -55,15 +55,6 @@ public class GraphCanvas extends JPanel implements MouseListener{
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        //preload(this.getGraphDrawing().getGraph());
-//        if (this.getGraphDrawing().getGraph().nodeSize() < 4) {
-//            double unitX = this.getWidth() / Math.abs(1000 - 0) * 0.975;
-//            double unitY = this.getWidth() / Math.abs(1000 - 0) * 0.9;
-//            double x = (e.getX() / unitX);
-//            double y = (e.getY() / unitY) ;
-//        } else if (this.getGraphDrawing().getGraph().nodeSize() == 4)
-//            preload(this.getGraphDrawing().getGraph());
-//        if (this.getGraphDrawing().getGraph().nodeSize() >= 4){
             double unitX = this.getWidth() / Math.abs(maxx - minx) * 0.975;
             double unitY = this.getWidth() / Math.abs(maxy - miny) * 0.9;
             double x = (e.getX() / unitX) + minx;

@@ -14,6 +14,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -81,7 +84,7 @@ public class ButtonListener implements ActionListener {
                     "save file",
                     JOptionPane.PLAIN_MESSAGE,null,
                     null,
-                    "Unknown"
+                    "data\\Unknown"
             );
                 int dialogButton = JOptionPane.showConfirmDialog(
                         this.gui,
@@ -89,7 +92,7 @@ public class ButtonListener implements ActionListener {
                         "Warning",
                         JOptionPane.YES_NO_OPTION);
                 if (dialogButton == JOptionPane.YES_OPTION) {
-                    if (gui.canvas.getGraphDrawing().save("data\\"+filename+".json")) {
+                    if (gui.canvas.getGraphDrawing().save(filename+".json")) {
                         JOptionPane.showMessageDialog(this.gui, "Graph saved.");
                     } else JOptionPane.showMessageDialog(this.gui, "save failed.");
                 }
@@ -137,7 +140,7 @@ public class ButtonListener implements ActionListener {
             }
             catch (NullPointerException exception)
             {
-                JOptionPane.showMessageDialog(null, "Path from "+src+" to "+dest+" is not excised.");
+                JOptionPane.showMessageDialog(null, "Path from "+src+" to "+dest+" is not exist.");
                 return;
             }
 
@@ -257,7 +260,7 @@ public class ButtonListener implements ActionListener {
                     this.gui.canvas.wasBigger=true;
                     JOptionPane.showMessageDialog(null, "Node " + id + " removed.");
                 } else
-                    JOptionPane.showMessageDialog(null, "Node " + id + " is not excised.");
+                    JOptionPane.showMessageDialog(null, "Node " + id + " is not exist.");
 
         }
         if (buttonName.equals("remove edge")) {
@@ -305,7 +308,7 @@ public class ButtonListener implements ActionListener {
                 JOptionPane.showMessageDialog(null, "Edge "+src+"->"+dest+" removed.");
             }
             else
-                JOptionPane.showMessageDialog(null, "Edge "+src+"->"+dest+" is not excised.");
+                JOptionPane.showMessageDialog(null, "Edge "+src+"->"+dest+" is not exist.");
         }
         if (buttonName.equals("connect edge")) {
             if(this.gui.canvas.getGraphDrawing().getGraph().nodeSize()==0){
@@ -470,15 +473,59 @@ public class ButtonListener implements ActionListener {
         if (buttonName.equals("Exit")) {
             this.gui.dispatchEvent(new WindowEvent(this.gui, WindowEvent.WINDOW_CLOSING));
         }
+        if (buttonName.equals("Random Graph")) {
+            int maxid=0;
+            DirectedWeightedGraphAlgorithms rndgraph= new GraphAlgorithms(new Graph());
+            String input;
+            input = (String)JOptionPane.showInputDialog(
+                    this.gui,
+                    "Write the number of nodes to build a random graph.",
+                    "input num of nodes",
+                    JOptionPane.PLAIN_MESSAGE,
+                    null,
+                    null,
+                    ""
+            );
+            try {
+                if (input.equals("")) throw new NullPointerException();
+                maxid = Integer.parseInt(input);
+            } catch (NullPointerException ex) {
+                JOptionPane.showMessageDialog(null, "No input");
+                return;
+            }
+            for (int i=0;i<maxid;i++)
+            {
+                double x=Math.random()+35;
+                double y=Math.random()+32;
+                String pos=x+","+y+",0.0";
+                rndgraph.getGraph().addNode(new Node(pos,i));
+            }
+            for (int i = 0; i <maxid ; i++) {
+                        rndgraph.getGraph().connect(i,(int)(Math.random()*maxid),Math.random()+1);
+                        rndgraph.getGraph().connect((int)(Math.random()*maxid),i,Math.random()+1);
+            }
+            this.gui.canvas.getGraphDrawing().init(rndgraph.getGraph());
+            this.gui.canvas.numbers=false;
+            this.gui.numbersItem.setLabel("show numbers");
+
+            this.gui.canvas.wasemtpy=false;
+            this.gui.canvas.wasBigger=false;
+            this.gui.canvas.paintComponent(this.gui.canvas.getGraphics());
+            JOptionPane.showMessageDialog(null, "Random succeed");
+
+
+
+        }
 
 
         if (buttonName.equals("Help")) {
-            File selectedFile = new File("files\\README.html");
+            System.out.println("help!!!!");
+            File selectedFile = new File("README.html");
             String path = selectedFile.getAbsolutePath();
             File myFile = new File(path);
             try {
-                Desktop.getDesktop().open(myFile);
-            } catch (IOException ex) {
+                Desktop.getDesktop().browse(new URL("http://github.com/SaliSharfman/Ex2_DirectedWeightedGraph/blob/master/README.md").toURI());
+            } catch (IOException | URISyntaxException ex) {
                 ex.printStackTrace();
             }
         }

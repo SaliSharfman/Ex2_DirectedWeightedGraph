@@ -9,7 +9,7 @@ public class GraphGUI extends JFrame{
     private ButtonListener bl;
     MenuBar menuBar;
     Menu helpMenu,fileMenu,editMenu,graphMenu,pathMenu;
-    MenuItem helpMenui,loadItem,saveItem,exitItem,isConectedItem,centerItem,clearColorsItem,clearItem,pathItem,tspItem,numbersItem,addNodeItem,removeNodeItem,connectItem,removeEdgeItem ;
+    MenuItem helpMenui,loadItem,saveItem,exitItem,rndItem,isConectedItem,centerItem,clearColorsItem,clearItem,pathItem,tspItem,numbersItem,addNodeItem,removeNodeItem,connectItem,removeEdgeItem ;
     JRadioButton addbutton;
 
 
@@ -75,16 +75,19 @@ public class GraphGUI extends JFrame{
 
         isConectedItem = new MenuItem("Is Connected");
         centerItem = new MenuItem("Center");
+        rndItem = new MenuItem("Random Graph");
         clearColorsItem = new MenuItem("Clear colors");
         clearItem = new MenuItem("Clear graph");
 
         graphMenu.add(isConectedItem);
         graphMenu.add(centerItem);
+        graphMenu.add(rndItem);
         graphMenu.add(clearColorsItem);
         graphMenu.add(clearItem);
 
         isConectedItem.addActionListener(bl);
         centerItem.addActionListener(bl);
+        rndItem.addActionListener(bl);
         clearColorsItem.addActionListener(bl);
         clearItem.addActionListener(bl);
 
@@ -106,6 +109,7 @@ public class GraphGUI extends JFrame{
         connectItem = new MenuItem("connect edge");
         removeEdgeItem = new MenuItem("remove edge");
 
+
         editMenu.add(numbersItem);
         editMenu.add(addNodeItem);
         editMenu.add(removeNodeItem);
@@ -118,6 +122,7 @@ public class GraphGUI extends JFrame{
         connectItem.addActionListener(bl);
         helpMenui.addActionListener(bl);
         removeEdgeItem.addActionListener(bl);
+
 
         menuBar.add(fileMenu);
         menuBar.add(editMenu);
