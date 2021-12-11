@@ -70,6 +70,9 @@ public class ButtonListener implements ActionListener {
                         this.gui.numbersItem.setLabel("show numbers");
                         gui.canvas.paintComponent(gui.canvas.getGraphics());
                         JOptionPane.showMessageDialog(null, filename + " was loaded.");
+                        File f =new File(filename);
+                        f.toPath();
+                        this.gui.setFileName("data/"+f.getName());
                     } else JOptionPane.showMessageDialog(null, "load failed.");
                 }
             }catch(Exception ex){
@@ -78,13 +81,19 @@ public class ButtonListener implements ActionListener {
 
         }
         if (buttonName.equals("Save")) {
+            JOptionPane.showMessageDialog(this.gui, "Graph saved.");
+            this.gui.canvas.getGraphDrawing().save(this.gui.getFileName());
+
+
+        }
+        if (buttonName.equals("Save as")) {
             String filename = (String)JOptionPane.showInputDialog(
                     this.gui,
                     "Write the name of the file.",
                     "save file",
                     JOptionPane.PLAIN_MESSAGE,null,
                     null,
-                    "data\\Unknown"
+                    "Unknown"
             );
                 int dialogButton = JOptionPane.showConfirmDialog(
                         this.gui,
@@ -92,7 +101,8 @@ public class ButtonListener implements ActionListener {
                         "Warning",
                         JOptionPane.YES_NO_OPTION);
                 if (dialogButton == JOptionPane.YES_OPTION) {
-                    if (gui.canvas.getGraphDrawing().save(filename+".json")) {
+                    new File("data/").mkdirs();
+                    if (gui.canvas.getGraphDrawing().save("data\\"+filename+".json")) {
                         JOptionPane.showMessageDialog(this.gui, "Graph saved.");
                     } else JOptionPane.showMessageDialog(this.gui, "save failed.");
                 }
@@ -237,7 +247,9 @@ public class ButtonListener implements ActionListener {
                 return;
             }
             Iterator<NodeData>nitr=this.gui.canvas.getGraphDrawing().getGraph().nodeIter();
-            int id=nitr.next().getKey();
+            int id=0;
+            while (nitr.hasNext())
+                id=nitr.next().getKey();
             String input;
             input = (String)JOptionPane.showInputDialog(
                     this.gui,
@@ -507,14 +519,11 @@ public class ButtonListener implements ActionListener {
             this.gui.canvas.getGraphDrawing().init(rndgraph.getGraph());
             this.gui.canvas.numbers=false;
             this.gui.numbersItem.setLabel("show numbers");
-
             this.gui.canvas.wasemtpy=false;
             this.gui.canvas.wasBigger=false;
             this.gui.canvas.paintComponent(this.gui.canvas.getGraphics());
             JOptionPane.showMessageDialog(null, "Random succeed");
-
-
-
+            this.gui.setFileName("data/"+maxid+"Nodes.json");
         }
 
 

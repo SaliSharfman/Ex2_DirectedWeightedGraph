@@ -20,6 +20,9 @@ import java.io.PrintWriter;
 import java.io.Reader;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -85,10 +88,22 @@ public class Ex2 {
 
 
     public static void main(String[] args) {
-        if(args.length>0)
-           runGUI(args[0]);
+        new File("data/").mkdirs();
+        if(args.length>0){
+
+            DirectedWeightedGraphAlgorithms alg = new GraphAlgorithms();
+            alg.load(args[0]);
+            alg.save("data\\"+args[0]);
+            alg.load("data\\"+args[0]);
+            runGUI("data\\"+args[0]);
+        }
         else
-           runGUI("data\\G1.json");
+        {
+            DirectedWeightedGraphAlgorithms algo=new GraphAlgorithms();
+            algo.save("data\\NewGraph.json");
+            runGUI("data\\NewGraph.json");
+        }
+
 
 
 
