@@ -1,0 +1,67 @@
+package tests;
+
+import api.DirectedWeightedGraphAlgorithms;
+import api.NodeData;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import java.time.Duration;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import static GUI.Ex2.getGrapgAlgo;
+import static org.junit.jupiter.api.Assertions.assertTimeout;
+
+class TimeOutTest {
+    List<NodeData> cities;
+    DirectedWeightedGraphAlgorithms graphAlgo1, graphAlgo2, graphAlgo3 ;
+
+    @BeforeEach
+    void setUp() {
+        graphAlgo1 = getGrapgAlgo("data/G1.json");
+        graphAlgo2 = getGrapgAlgo("data/G2.json");
+        graphAlgo3 = getGrapgAlgo("data/G3.json");
+    }
+
+    @Test
+    void test_timeout_tsp() {
+        assertTimeout(Duration.ofSeconds(2), () -> tspTest(graphAlgo1)); // pass under 2sec
+        assertTimeout(Duration.ofSeconds(10), () -> tspTest(graphAlgo2)); // pass under 10sec
+        assertTimeout(Duration.ofSeconds(20), () -> tspTest(graphAlgo3)); // pass under 20sec
+    }
+    @Test
+    void test_timeout_shortestPathDist() {
+        assertTimeout(Duration.ofSeconds(1), () -> shortestPathDistTest(graphAlgo1, 0, 16)); // pass under 1sec
+        assertTimeout(Duration.ofSeconds(1), () -> shortestPathDistTest(graphAlgo2, 0, 30)); // pass under 1sec
+        assertTimeout(Duration.ofSeconds(1), () -> shortestPathDistTest(graphAlgo3, 0, 47)); // pass under 1sec
+    }
+
+    void tspTest(DirectedWeightedGraphAlgorithms graphAlgorithms) {
+        cities = new LinkedList<NodeData>();
+        Iterator<NodeData> nodeDataIterator = graphAlgorithms.getGraph().nodeIter();
+        while(nodeDataIterator.hasNext()){
+            NodeData node = nodeDataIterator.next();
+            cities.add(node);
+        }
+        List<NodeData> ans = new LinkedList<>();
+        ans = graphAlgorithms.tsp(cities);
+    }
+    void shortestPathDistTest(DirectedWeightedGraphAlgorithms graphAlgorithms, int src, int dest){
+        graphAlgorithms.shortestPathDist(src,dest);
+    }
+
+    //need to finish time out tests for all functions...
+
+
+    void delaySecond(int second) {
+        try {
+            TimeUnit.SECONDS.sleep(second);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+}
+
