@@ -16,13 +16,15 @@ import static org.junit.jupiter.api.Assertions.assertTimeout;
 
 class TimeOutTest {
     List<NodeData> cities;
-    DirectedWeightedGraphAlgorithms graphAlgo1, graphAlgo2, graphAlgo3 ;
+    DirectedWeightedGraphAlgorithms graphAlgo1, graphAlgo2, graphAlgo3, graphAlgo4, graphAlgo5 ;
 
     @BeforeEach
     void setUp() {
         graphAlgo1 = getGrapgAlgo("data/G1.json");
         graphAlgo2 = getGrapgAlgo("data/G2.json");
         graphAlgo3 = getGrapgAlgo("data/G3.json");
+        graphAlgo4 = getGrapgAlgo("data/1000Nodes.json");
+        graphAlgo5 = getGrapgAlgo("data/10000Nodes.json");
     }
 
     @Test
@@ -36,24 +38,33 @@ class TimeOutTest {
         assertTimeout(Duration.ofSeconds(1), () -> shortestPathDistTest(graphAlgo1, 0, 16)); // pass under 1sec
         assertTimeout(Duration.ofSeconds(1), () -> shortestPathDistTest(graphAlgo2, 0, 30)); // pass under 1sec
         assertTimeout(Duration.ofSeconds(1), () -> shortestPathDistTest(graphAlgo3, 0, 47)); // pass under 1sec
+        assertTimeout(Duration.ofSeconds(1), () -> shortestPathDistTest(graphAlgo4, 0, 999)); // pass under 1sec
+        assertTimeout(Duration.ofSeconds(5), () -> shortestPathDistTest(graphAlgo5, 0, 9999)); // pass under 5sec
     }
     @Test
     void test_timeout_shortestPath() {
         assertTimeout(Duration.ofSeconds(1), () -> shortestPathTest(graphAlgo1, 0, 16)); // pass under 1sec
         assertTimeout(Duration.ofSeconds(1), () -> shortestPathTest(graphAlgo2, 0, 30)); // pass under 1sec
         assertTimeout(Duration.ofSeconds(1), () -> shortestPathTest(graphAlgo3, 0, 47)); // pass under 1sec
+        assertTimeout(Duration.ofSeconds(1), () -> shortestPathTest(graphAlgo4, 0, 999)); // pass under 1sec
+        assertTimeout(Duration.ofSeconds(5), () -> shortestPathTest(graphAlgo5, 0, 9999)); // pass under 5sec
     }
     @Test
     void test_timeout_center() {
-        assertTimeout(Duration.ofSeconds(5), () -> centerTest(graphAlgo1)); // pass under _sec
-        assertTimeout(Duration.ofSeconds(10), () -> centerTest(graphAlgo2)); // pass under _sec
-        assertTimeout(Duration.ofSeconds(20), () -> centerTest(graphAlgo3)); // pass under _sec
+        assertTimeout(Duration.ofSeconds(1), () -> centerTest(graphAlgo1)); // pass under 1 sec
+        assertTimeout(Duration.ofSeconds(1), () -> centerTest(graphAlgo2)); // pass under 1 sec
+        assertTimeout(Duration.ofSeconds(1), () -> centerTest(graphAlgo3)); // pass under 1 sec
+        assertTimeout(Duration.ofSeconds(10), () -> centerTest(graphAlgo4)); // pass under 10 sec
+
+
     }
     @Test
     void test_timeout_isConnected() {
         assertTimeout(Duration.ofSeconds(1), () -> isConnectedTest(graphAlgo1)); // pass under _sec
         assertTimeout(Duration.ofSeconds(1), () -> isConnectedTest(graphAlgo2)); // pass under _sec
         assertTimeout(Duration.ofSeconds(1), () -> isConnectedTest(graphAlgo3)); // pass under _sec
+        assertTimeout(Duration.ofSeconds(1), () -> isConnectedTest(graphAlgo4)); // pass under _sec
+
     }
 
 
