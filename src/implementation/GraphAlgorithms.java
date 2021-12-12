@@ -57,21 +57,17 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
     public boolean isConnected() {
         if (this.graph.nodeSize() == 0)
             return true;
-        LinkedList<Integer> queue = new LinkedList<Integer>();
-        HashMap<Integer, Integer> colors = new HashMap<Integer, Integer>();
-        Iterator<NodeData> nitr = this.graph.nodeIter();
-        NodeData start = nitr.next();
-        colors.put(start.getKey(), 0);
-        while (nitr.hasNext())
-            colors.put(nitr.next().getKey(), 0);
-        Iterator<EdgeData> ei = this.graph.edgeIter(start.getKey());
-        while (ei.hasNext()) {
-            int dest = ei.next().getDest();
-            colors.remove(dest);
-            colors.put(dest, 1);//gray
-            queue.add(dest);
+        DirectedWeightedGraphAlgorithms algo = new GraphAlgorithms(this.copy());
+        Iterator<NodeData> nodeDataIterator = algo.getGraph().nodeIter();
+
+        Dijkstra(algo.getGraph(), nodeDataIterator.next().getKey());
+        nodeDataIterator = algo.getGraph().nodeIter();
+        while(nodeDataIterator.hasNext()){
+            if(nodeDataIterator.next().getWeight() == Integer.MAX_VALUE){
+                return false;
+            }
         }
-        return BFS(queue, colors, this.graph);
+        return true;
     }
     private LinkedList findInit(DirectedWeightedGraph g1) {
         LinkedList<NodeData> queue = new LinkedList<NodeData>();
