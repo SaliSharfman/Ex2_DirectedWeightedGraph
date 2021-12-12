@@ -27,7 +27,7 @@ class TimeOutTest {
 
     @Test
     void test_timeout_tsp() {
-        assertTimeout(Duration.ofSeconds(2), () -> tspTest(graphAlgo1)); // pass under 2sec
+        assertTimeout(Duration.ofSeconds(5), () -> tspTest(graphAlgo1)); // pass under 5sec
         assertTimeout(Duration.ofSeconds(10), () -> tspTest(graphAlgo2)); // pass under 10sec
         assertTimeout(Duration.ofSeconds(20), () -> tspTest(graphAlgo3)); // pass under 20sec
     }
@@ -37,6 +37,25 @@ class TimeOutTest {
         assertTimeout(Duration.ofSeconds(1), () -> shortestPathDistTest(graphAlgo2, 0, 30)); // pass under 1sec
         assertTimeout(Duration.ofSeconds(1), () -> shortestPathDistTest(graphAlgo3, 0, 47)); // pass under 1sec
     }
+    @Test
+    void test_timeout_shortestPath() {
+        assertTimeout(Duration.ofSeconds(1), () -> shortestPathTest(graphAlgo1, 0, 16)); // pass under 1sec
+        assertTimeout(Duration.ofSeconds(1), () -> shortestPathTest(graphAlgo2, 0, 30)); // pass under 1sec
+        assertTimeout(Duration.ofSeconds(1), () -> shortestPathTest(graphAlgo3, 0, 47)); // pass under 1sec
+    }
+    @Test
+    void test_timeout_center() {
+        assertTimeout(Duration.ofSeconds(5), () -> centerTest(graphAlgo1)); // pass under _sec
+        assertTimeout(Duration.ofSeconds(10), () -> centerTest(graphAlgo2)); // pass under _sec
+        assertTimeout(Duration.ofSeconds(20), () -> centerTest(graphAlgo3)); // pass under _sec
+    }
+    @Test
+    void test_timeout_isConnected() {
+        assertTimeout(Duration.ofSeconds(1), () -> isConnectedTest(graphAlgo1)); // pass under _sec
+        assertTimeout(Duration.ofSeconds(1), () -> isConnectedTest(graphAlgo2)); // pass under _sec
+        assertTimeout(Duration.ofSeconds(1), () -> isConnectedTest(graphAlgo3)); // pass under _sec
+    }
+
 
     void tspTest(DirectedWeightedGraphAlgorithms graphAlgorithms) {
         cities = new LinkedList<NodeData>();
@@ -51,17 +70,24 @@ class TimeOutTest {
     void shortestPathDistTest(DirectedWeightedGraphAlgorithms graphAlgorithms, int src, int dest){
         graphAlgorithms.shortestPathDist(src,dest);
     }
-
-    //need to finish time out tests for all functions...
-
-
-    void delaySecond(int second) {
-        try {
-            TimeUnit.SECONDS.sleep(second);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+    void shortestPathTest(DirectedWeightedGraphAlgorithms graphAlgorithms, int src, int dest){
+        graphAlgorithms.shortestPath(src,dest);
     }
+    void centerTest(DirectedWeightedGraphAlgorithms graphAlgorithms){
+        graphAlgorithms.center();
+    }
+    void isConnectedTest(DirectedWeightedGraphAlgorithms graphAlgorithms){
+        graphAlgorithms.isConnected();
+    }
+
+
+//    void delaySecond(int second) {
+//        try {
+//            TimeUnit.SECONDS.sleep(second);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
 }
 
