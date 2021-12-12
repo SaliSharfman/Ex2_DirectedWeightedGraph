@@ -187,6 +187,6 @@ class GraphTest {
         graph1.removeNode(5);
         assertEquals(13,graph1.getMC());
         graph1.removeNode(0);
-        assertEquals(18,graph1.getMC());
+        assertEquals(19,graph1.getMC());
     }
 }
