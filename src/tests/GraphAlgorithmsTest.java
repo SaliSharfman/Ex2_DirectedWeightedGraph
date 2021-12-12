@@ -2,6 +2,7 @@ package tests;
 
 import api.DirectedWeightedGraph;
 import api.DirectedWeightedGraphAlgorithms;
+import api.NodeData;
 import implementation.Geo_Location;
 import implementation.Graph;
 import implementation.GraphAlgorithms;
@@ -10,7 +11,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
+import static GUI.Ex2.getGrapgAlgo;
 import static org.junit.jupiter.api.Assertions.*;
 
 class GraphAlgorithmsTest {
@@ -98,21 +104,77 @@ class GraphAlgorithmsTest {
 
     @Test
     void shortestPath() {
+        DirectedWeightedGraphAlgorithms alg1 = new GraphAlgorithms();
+        alg1.load("data/G1.json");
+        List<NodeData> list1 = new ArrayList<NodeData>();
+        list1 = alg1.shortestPath(0, 15);
+
+        assertEquals(0, list1.get(0).getKey());
+        assertEquals(16, list1.get(1).getKey());
+        assertEquals(15, list1.get(2).getKey());
+
+
+        DirectedWeightedGraphAlgorithms alg2 = new GraphAlgorithms();
+        alg2.load("data/G2.json");
+        List<NodeData> list2 = new ArrayList<NodeData>();
+        list2 = alg2.shortestPath(0, 15);
+
+        assertEquals(0, list2.get(0).getKey());
+        assertEquals(16, list2.get(1).getKey());
+        assertEquals(15, list2.get(2).getKey());
+
+
+        DirectedWeightedGraphAlgorithms alg3 = new GraphAlgorithms();
+        alg3.load("data/G3.json");
+        List<NodeData> list3 = new ArrayList<NodeData>();
+        list3 = alg3.shortestPath(0, 15);
+
+        assertEquals(0, list3.get(0).getKey());
+        assertEquals(2, list3.get(1).getKey());
+        assertEquals(3, list3.get(2).getKey());
+        assertEquals(13, list3.get(3).getKey());
+        assertEquals(14, list3.get(4).getKey());
+        assertEquals(15, list3.get(5).getKey());
+
+
+
     }
 
     @Test
     void center() {
         assertNull(algog1.center());
-        algog1.load("G1.json");
+        algog1.load("data/G1.json");
         assertEquals(8,algog1.center().getKey());
-        algog1.load("G2.json");
+        algog1.load("data/G2.json");
         assertEquals(0,algog1.center().getKey());
-        algog1.load("G3.json");
+        algog1.load("data/G3.json");
         assertEquals(40,algog1.center().getKey());
     }
 
     @Test
     void tsp() {
+//        DirectedWeightedGraphAlgorithms alg1, alg2, alg3;
+//        alg1 = getGrapgAlgo("data/G1.json");
+//        alg2 = getGrapgAlgo("data/G2.json");
+//        alg3 = getGrapgAlgo("data/G3.json");
+//        List<NodeData> city = new LinkedList<NodeData>();
+//
+//        List<NodeData> lst1, lst2, lst3;
+//
+//        Iterator<NodeData> nodeIter = alg1.getGraph().nodeIter();
+//        while (nodeIter.hasNext()) {
+//            NodeData n = nodeIter.next();
+//            city.add(n);
+//        }
+//
+//        lst1 = alg1.tsp(city);
+//        lst2 = alg2.tsp(city);
+//        lst3 = alg3.tsp(city);
+
+
+
+
+
     }
 
     @Test
@@ -130,11 +192,11 @@ class GraphAlgorithmsTest {
             assertEquals("datanexistfile.json (The system cannot find the file specified)",e.toString());
         }
 
-        assertTrue(algog1.load("G1.json"));
+        assertTrue(algog1.load("data/G1.json"));
         assertEquals(17,algog1.getGraph().nodeSize());
-        assertTrue(algog1.load("G2.json"));
+        assertTrue(algog1.load("data/G2.json"));
         assertEquals(31,algog1.getGraph().nodeSize());
-        assertTrue(algog1.load("G3.json"));
+        assertTrue(algog1.load("data/G3.json"));
         assertEquals(48,algog1.getGraph().nodeSize());
     }
 }
