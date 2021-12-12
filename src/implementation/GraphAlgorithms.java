@@ -316,12 +316,33 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
 
 
         //CONVERSE from List tour to List NodeData
+        List<NodeData> tmp;
         List<NodeData> ans = new LinkedList<NodeData>();
-
-        for(int i = 0; i<tour.getTour().size(); i++){
-            ans.add(new Node(tour.getCity(i).getNode()));
+        boolean firstTime = true;
+        for(int i = 0; i < tour.getTour().size(); i++){
+            //ans.add(new Node(tour.getCity(i).getNode()));
+            if (i+1 != tour.getTour().size()){
+                tmp = shortestPath(tour.getCity(i).getNode().getKey(), tour.getCity(i+1).getNode().getKey());
+                for(int j = 1; j<tmp.size(); j++){
+                    if (!firstTime){
+                        ans.add(new Node(tmp.get(j)));
+                    }
+                    else{
+                        ans.add(new Node(tmp.get(0)));
+                        ans.add(new Node(tmp.get(1)));
+                        firstTime = false;
+                    }
+                }
+            }
         }
-        ans.add(ans.get(0));
+
+        for(int i = 0; i<ans.size(); i++){
+            System.out.print(ans.get(i).getKey());
+            if (i+1 != ans.size())
+                System.out.print("->");
+        }
+
+        //ans.add(ans.get(0));
 
         return ans;
     }
