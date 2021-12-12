@@ -190,33 +190,67 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
 
     @Override
     public NodeData center() {
-        if (this.graph.nodeSize() == 0 || !this.isConnected())
+        if (this.graph == null || this.graph.nodeSize() == 0)
             return null;
-        DirectedWeightedGraphAlgorithms algo = new GraphAlgorithms(this.copy());
-        Iterator<NodeData> ni = algo.getGraph().nodeIter();
-        while (ni.hasNext()) {
-            ni.next().setWeight(-1);
-        }
-        ni = algo.getGraph().nodeIter();
-        while (ni.hasNext()) {
-            NodeData nodei = ni.next();
-            Iterator<NodeData> nj = algo.getGraph().nodeIter();
-            while (nj.hasNext()) {
-                NodeData nodej = nj.next();
-                if (nodei.getWeight() < algo.shortestPathDist(nodei.getKey(), nodej.getKey()))
-                    nodei.setWeight(algo.shortestPathDist(nodei.getKey(), nodej.getKey()));
-            }
-        }
-        ni = algo.getGraph().nodeIter();
-        int center = ni.next().getKey();
-        while (ni.hasNext())
-        {
-            NodeData node = ni.next();
-            if(node.getWeight()<algo.getGraph().getNode(center).getWeight())
-                center=node.getKey();
+        if (isConnected()){
+            int center = 0;
+            int V = this.graph.nodeSize();
+            double[][] dist = new double[V][V];
+//        int next[][] = new int[V][V];
 
+            for(int i = 0; i < V; i++) {
+                for (int j = 0; j < V; j++) {
+                    dist[i][j] = Double.POSITIVE_INFINITY;
+                }
+            }
+
+            Iterator<EdgeData> edgeIter = this.graph.edgeIter();
+            while (edgeIter.hasNext()) {
+                EdgeData edge = new Edge(edgeIter.next());
+                dist[edge.getSrc()][edge.getDest()] = edge.getWeight();
+//            next[edge.getSrc()][edge.getDest()] = edge.getSrc();
+            }
+            Iterator<NodeData> nodeIter = this.graph.nodeIter();
+            while (nodeIter.hasNext()) {
+                NodeData n = nodeIter.next();
+                dist[n.getKey()][n.getKey()] = 0;
+//            next[n.getKey()][n.getKey()] = n.getKey();
+            }
+
+            for(int k = 0; k < V; k++){
+                for(int i = 0; i < V; i++){
+                    for(int j = 0; j < V; j++){
+                        if(dist[i][j] > dist[i][k] + dist[k][j]){
+                            dist[i][j] = dist[i][k] + dist[k][j];
+//                        next[i][j] = next[i][k];
+                        }
+                    }
+                }
+            }
+            double[] arr = new double[V];
+            double max_value;
+            for(int i = 0; i < V; i++){
+                arr[i] = dist[i][0];
+                max_value = dist[i][0];
+                for (int j = 0; j < V; j++){
+                    if (i != j){
+                        if(dist[i][j] > max_value){
+                            max_value = dist[i][j];
+                            arr[i] = max_value;
+                        }
+                    }
+                }
+            }
+            double min_value = arr[0];
+            for(int i = 0; i < V; i++){
+                if(arr[i] < min_value){
+                    center = i;
+                    min_value = arr[i];
+                }
+            }
+            return new Node(this.graph.getNode(center));
         }
-        return this.graph.getNode(center);
+        return null;
     }
     public List<NodeData> maketsp(List<NodeData> cities) {
 
