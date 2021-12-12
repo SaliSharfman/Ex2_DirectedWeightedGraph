@@ -27,6 +27,8 @@ public class GraphCanvas extends JPanel implements MouseListener{
     double minx,miny,maxx,maxy;
     boolean wasemtpy=false;
     boolean wasBigger=false;
+    boolean pressed=false,mooved=false;
+
 
     /*
      * One Parameter Constructor of a GraphCanvas
@@ -53,34 +55,7 @@ public class GraphCanvas extends JPanel implements MouseListener{
         radioButtonState=s;
     }
 
-    @Override
-    public void mouseClicked(MouseEvent e) {
-            double unitX = this.getWidth() / Math.abs(maxx - minx) * 0.975;
-            double unitY = this.getWidth() / Math.abs(maxy - miny) * 0.9;
-            double x = (e.getX() / unitX) + minx;
-            double y = (e.getY() / unitY) + miny;
 
-            if (radioButtonState.equals("")) {
-                this.paintComponent(this.getGraphics());
-            }
-
-            if (!isEnabled) return;
-
-            if (radioButtonState.equals("add node")) {
-                int id = 0;
-                for (int i = 0; i < graphDrawing.getGraph().nodeSize() + 1; i++) {
-                    if (graphDrawing.getGraph().getNode(i) == null) {
-                        id = i;
-                        break;
-                    }
-                }
-                String pos = x + "," + y + ",0.0";
-                NodeData v = new Node(pos, id);
-                graphDrawing.getGraph().addNode(v);
-                this.paintComponent(this.getGraphics());
-
-        }
-    }
     private void preload(DirectedWeightedGraph graph)
     {
         if (graph.nodeSize()==0)
@@ -106,7 +81,7 @@ public class GraphCanvas extends JPanel implements MouseListener{
                 if (node.getLocation().x() < minx) minx = node.getLocation().x();
                 if (node.getLocation().x() > maxx) maxx = node.getLocation().x();
                 if (node.getLocation().y() < miny) miny = node.getLocation().y();
-                if (node.getLocation().y() > maxy) maxy = node.getLocation().y() * 1.00028;
+                if (node.getLocation().y() > maxy) maxy = node.getLocation().y() * 1.00030;
 
             }
         }
@@ -164,9 +139,9 @@ public class GraphCanvas extends JPanel implements MouseListener{
 
                 g.setColor(Color.darkGray);
 
-                drawArrowLine(g, (int) xsrc, (int) ysrc, (int) xdest, (int) ydest, 30, 7);
+                drawArrowLine(g, (int) xsrc, (int) ysrc, (int) xdest, (int) ydest, 15, 3);
                 if (edge.getWeight() != 0 && numbers) {
-                    g.setFont(new Font("Dialog", Font.BOLD, 18));
+                    g.setFont(new Font("Dialog", Font.BOLD, 10));
                     g.drawString("" + edge.getWeight(), (((int) xsrc + (int) xdest) / 2) + 20, (((int) ysrc + (int) ydest) / 2));
                 }
             }
@@ -193,11 +168,12 @@ public class GraphCanvas extends JPanel implements MouseListener{
                     g.setColor(Color.GREEN);
                     break;
             }
-            drawArrowLine(g, (int) xsrc, (int) ysrc, (int) xdest, (int) ydest, 30, 7);
+            drawArrowLine(g, (int) xsrc, (int) ysrc, (int) xdest, (int) ydest, 15, 3);
             if (edge.getWeight() != 0 && numbers) {
-                g.setFont(new Font("Dialog", Font.BOLD, 18));
+                g.setFont(new Font("Dialog", Font.BOLD, 10));
                 g.drawString("" + edge.getWeight(), (((int) xsrc + (int) xdest) / 2) + 20, (((int) ysrc + (int) ydest) / 2));
             }
+
         }
 
         //paint node
@@ -211,11 +187,11 @@ public class GraphCanvas extends JPanel implements MouseListener{
                 int x = (int) ((node.getLocation().x() - minx) * unitX);
                 int y = (int) ((node.getLocation().y() - miny) * unitY);
                 g.setColor(Color.darkGray);
-                g.fillOval(x, y, 24, 24);
+                g.fillOval(x+4, y+3, 13, 13);
                 if (numbers) {
                     g.setColor(Color.white);
-                    g.setFont(new Font("Dialog", Font.BOLD, 18));
-                    g.drawString("" + node.getKey(), x + 7, y + 17);
+                    g.setFont(new Font("Dialog", Font.BOLD, 12));
+                    g.drawString("" + node.getKey(), x + 7, y + 15);
                 }
             }
         }
@@ -230,27 +206,64 @@ public class GraphCanvas extends JPanel implements MouseListener{
                     g.setColor(Color.GREEN);
                     break;
             }
-            g.fillOval(x, y, 24, 24);
+            g.fillOval(x+4, y+3, 13, 13);
             if (numbers) {
                 g.setColor(Color.white);
-                g.setFont(new Font("Dialog", Font.BOLD, 18));
-                g.drawString("" + node.getKey(), x + 7, y + 17);
+                g.setFont(new Font("Dialog", Font.BOLD, 12));
+                g.drawString("" + node.getKey(), x + 7, y + 15);
             }
         }
 
     }
 
     @Override
-    public void mouseEntered(MouseEvent arg0) {}
+    public void mouseClicked(MouseEvent e) {
+        double unitX = this.getWidth() / Math.abs(maxx - minx) * 0.975;
+        double unitY = this.getWidth() / Math.abs(maxy - miny) * 0.9;
+        double x = (e.getX() / unitX) + minx;
+        double y = (e.getY() / unitY) + miny;
+
+        if (radioButtonState.equals("")) {
+            this.paintComponent(this.getGraphics());
+        }
+
+        if (!isEnabled) return;
+
+        if (radioButtonState.equals("add node")) {
+            int id = 0;
+            for (int i = 0; i < graphDrawing.getGraph().nodeSize() + 1; i++) {
+                if (graphDrawing.getGraph().getNode(i) == null) {
+                    id = i;
+                    break;
+                }
+            }
+            String pos = x + "," + y + ",0.0";
+            NodeData v = new Node(pos, id);
+            graphDrawing.getGraph().addNode(v);
+            this.paintComponent(this.getGraphics());
+
+        }
+    }
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
 
     @Override
-    public void mouseExited(MouseEvent arg0) {}
+    public void mouseExited(MouseEvent arg0) {
+
+    }
 
     @Override
-    public void mousePressed(MouseEvent arg0) {}
+    public void mousePressed(MouseEvent e) {
+
+    }
 
     @Override
-    public void mouseReleased(MouseEvent arg0) {}
+    public void mouseReleased(MouseEvent arg0) {
+
+    }
+
 
 
 }

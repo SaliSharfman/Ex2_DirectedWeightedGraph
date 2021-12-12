@@ -95,7 +95,7 @@ public class Ex2 {
             alg.load(args[0]);
             alg.save("data\\"+args[0]);
             alg.load("data\\"+args[0]);
-            runGUI("data\\"+args[0]);
+            runGUI(args[0]);
         }
         else
         {
