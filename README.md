@@ -26,7 +26,8 @@ We will now look at the graphical interface of the software </br>
 
 
 
-The UML diagram presents the division of our classes:  [UML class Ex1.pdf](https://github.com/SaliSharfman/Ex2_DirectedWeightedGraph/files/7686795/UML.class.Ex1.pdf)
+
+The UML diagram presents the division of our classes: [UML.class.Ex2.pdf](https://github.com/SaliSharfman/Ex2_DirectedWeightedGraph/files/7700031/UML.class.Ex2.pdf)
 
 <img width="1093" alt="Screen Shot 2021-11-18 at 0 26 08" src="https://user-images.githubusercontent.com/86108478/145435553-20cdd525-4943-4b58-a51c-14224432c1bd.jpg">
 </br>
