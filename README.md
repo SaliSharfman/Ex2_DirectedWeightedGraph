@@ -54,7 +54,7 @@ G2.json (31 Nodes):4 sec 863 ms</br>
 G3.json (48 Nodes):4 sec 944 ms</br>
 1,000 Nodes:4 sec 925 ms</br>
 10,000 Nodes:2 min 58 sec</br>
-100,000 Nodes:</br>
+100,000 Nodes:3 min 1 sec</br>
 
 </br><b>shortestPath:</b></br>
 G1.json (17 Nodes):4 sec 868 ms</br>
