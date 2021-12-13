@@ -1,5 +1,5 @@
 
-<head><b>Ex2_DirectedWeightedGraphas</b></head></br>
+<center><head><b>Ex2_DirectedWeightedGraphas</b></head></br>
 <u>authors:  Sali Sharfman, Josef Sokolov.</u></br></br>
 This program deals with the graphic realization of weighted and directed graphs. </br>As part of implementing the graphs we implemented Node, Edge, Graph, and algorithms on the graph.</br>The algorithms we implemented are: finding a central node, finding the shortest route between two nodes and its length, checking if the graph is connected, and finding a solution to the problem of finding shortest path that goes over all nodes in the graph  .</br>
 In addition, the software has editing options for the graph, which are adding a node, deleting a node, connecting an edge, and deleting an edge.</br>
@@ -33,19 +33,19 @@ The UML diagram presents the division of our classes: [UML.class.Ex2.pdf](https:
 </br>
 <b>Run Time Log:</b></br>
 </br><b>isConnected:</b></br>
-G1.json (17 Nodes):4 sec 875 ms</br>
-G2.json (31 Nodes):4 sec 871 ms</br>
-G3.json (48 Nodes):5 sec 12 ms</br>
-1,000 Nodes:5 sec 6 ms</br>
-10,000 Nodes:6 sec 686 ms</br>
+G1.json (17 Nodes):500 ms</br>
+G2.json (31 Nodes):500 ms</br>
+G3.json (48 Nodes):531 ms</br>
+1,000 Nodes:46 ms</br>
+10,000 Nodes:1 sec 803 ms</br>
 100,000 Nodes:2 min 37 sec</br>
 
 </br><b>center:</b></br>
-G1.json (17 Nodes):4 sec 851 ms</br>
-G2.json (31 Nodes):4 sec 854 ms</br>
-G3.json (48 Nodes):4 sec 971 ms</br>
+G1.json (17 Nodes):499 ms</br>
+G2.json (31 Nodes):500 ms</br>
+G3.json (48 Nodes):468 ms</br>
 1,000 Nodes:7 sec 697 ms</br>
-   10,000 Nodes:</br>
+   10,000 Nodes:10 min 52 sec</br>
    100,000 Nodes:</br>
    
 </br><b>shortestPathDist:</b></br>
@@ -53,8 +53,8 @@ G1.json (17 Nodes):4 sec 796 ms</br>
 G2.json (31 Nodes):4 sec 863 ms</br>
 G3.json (48 Nodes):4 sec 944 ms</br>
 1,000 Nodes:4 sec 925 ms</br>
-10,000 Nodes:6 sec 764 ms</br>
-100,000 Nodes:2 min 58 sec</br>
+10,000 Nodes:2 min 58 sec</br>
+100,000 Nodes:</br>
 
 </br><b>shortestPath:</b></br>
 G1.json (17 Nodes):4 sec 868 ms</br>
@@ -71,5 +71,18 @@ G3.json (48 Nodes):18 sec 931 ms</br>
    1,000 Nodes:</br>
    10,000 Nodes:</br>
    100,000 Nodes:</br>
-[Ex2_jar.zip](https://github.com/SaliSharfman/Ex2_DirectedWeightedGraph/files/7700130/Ex2_jar.zip)
+   
+   </br><b>Instructions for running the program:</b></br>
+   🔹Download the following zip file- 
+   [Ex2_jar.zip](https://github.com/SaliSharfman/Ex2_DirectedWeightedGraph/files/7700295/Ex2_jar.zip)</br>
+   🔹Extract the files to your computer.</br>
+   🔹Open CMD.</br>
+   🔹Cd the directory that you saved the files in.</br>
+   🔹Write the next command: java -jar Ex2.jar (you can run with a json file argument for example: java -jar Ex2.jar G1.json ).</br>
+   🔹The GUI of the project will run, a directory named "data" will appear in the directory that you saved the files    in for loading and saving files, if you runned with a json    file argument the graph that you runned will be drawn and saved in data directory, else, a new empty graph will be opened and saved in data dirctory. </br>
+   🔹 Now you can use the program, edit graphs and run the algorithms.</br>
+   <b>Have fun! </B></center> 
+![icon](https://user-images.githubusercontent.com/86108478/145739726-14159ff4-8878-4ec0-81b6-be6af1a73085.jpg)
+
+
 
