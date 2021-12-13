@@ -1,12 +1,12 @@
 
 <center><head><b>Ex2_DirectedWeightedGraphas</b></head></br>
 <u>authors:  Sali Sharfman, Josef Sokolov.</u></br></br>
-This OOP deals with the realization of weighted and directed graphs. It includes a few calculations on the graph via well-known algorithms such as Floyd-Warshall algorithm and Dijkstra algorithm and also it includes the GUI (graphical user interface) to show the graph itself and it's calculations to the user. </br>As part of implementing the graphs we implemented such classes like: Node, Edge, Graph and Algorithms (algorithms on the graph).</br>The algorithms we implemented are:</br>center: finding a central node (node with the minimal sum weight of edges that get out of it to all other nodes)</br>shortest path: finding the shortest path between two nodes and its length</br> isConnected: checking if the graph is connected, and finding a solution to the problem of finding shortest path that goes over all nodes in the graph.</br>
-In addition, the software has editing options for the graph, which are adding a node, deleting a node, connecting an edge, and deleting an edge.</br>
+This OOP deals with the realization of weighted and directed graphs. It includes a few calculations on the graph via well-known algorithms such as Floyd-Warshall algorithm and Dijkstra algorithm and also it includes the GUI (graphical user interface) to show the graph itself and it's calculations to the user. </br>As part of implementing the graphs we implemented classes:</br>class Node</br>class Edge</br>class Graph</br>class GraphAlgorithms (algorithms on the graph)</br></br>The algorithms we implemented are:</br>center: finding a central node (node with the minimal sum weight of edges that get out of it to all other nodes)</br>shortest path: finding the shortest path between two nodes and its length</br> isConnected: checking if the graph is connected</br> tsp:(not real tsp): finding finding the shortest path that goes over all nodes in the graph.</br>
+In addition, the program has editing options for the graph, which are: add node, delete node, connect edge, and delete edge.</br>
 
 
 You can load graphs from json to decapitate the graphs and save again as a json file.</br>
-We will now look at the graphical interface of the software </br>
+We will now look at the graphical interface of the program </br>
 <img width="1093" alt="Screen Shot 2021-11-18 at 0 26 08" src="https://user-images.githubusercontent.com/86108478/145414449-bdc0f100-b673-4853-9a1f-f18745dfdaf3.png">
 
 <b>File Menu</b></br>By clicking <b>Load</b> you can load a graph.</br>By clicking <b>Save</b> the graph will be saved in data folder with the given name.</br>By clicking<b> Exit</b> the program will be closed.</br><img width="100" alt="Screen Shot 2021-11-18 at 0 26 08" src="https://user-images.githubusercontent.com/86108478/145414914-2169c8f6-b3c6-4d95-8db2-143b80588c8f.png"></br>
