@@ -175,7 +175,9 @@ public class ButtonListener implements ActionListener {
             }
             for (i = 0; i < arr.length - 1; i++) {
                 this.gui.canvas.graphDrawing.getGraph().getEdge(arr[i], arr[i + 1]).setTag(2);
+                this.gui.canvas.graphDrawing.getGraph().getNode(arr[i]).setTag(2);
             }
+            this.gui.canvas.graphDrawing.getGraph().getNode(arr[arr.length-1]).setTag(2);
             path = path.substring(0, path.length() - 2);
 
             this.gui.canvas.paintComponent(this.gui.canvas.getGraphics());
@@ -241,9 +243,12 @@ public class ButtonListener implements ActionListener {
                 path += this.gui.canvas.graphDrawing.getGraph().getNode(n.getKey()).getKey() + "->";
             }
             for (i = 0; i < arr.length - 1; i++) {
-                if (this.gui.canvas.graphDrawing.getGraph().getEdge(arr[i], arr[i + 1]) != null)
-                    this.gui.canvas.graphDrawing.getGraph().getEdge(arr[i], arr[i + 1]).setTag(2);
+                if (this.gui.canvas.graphDrawing.getGraph().getEdge(arr[i], arr[i + 1]) != null) {
+                    this.gui.canvas.graphDrawing.getGraph().getEdge(arr[i], arr[i + 1]).setTag(3);
+                    this.gui.canvas.graphDrawing.getGraph().getNode(arr[i]).setTag(3);
+                }
             }
+            this.gui.canvas.graphDrawing.getGraph().getNode(arr[arr.length-1]).setTag(3);
             path = path.substring(0, path.length() - 2);
 
             this.gui.canvas.paintComponent(this.gui.canvas.getGraphics());

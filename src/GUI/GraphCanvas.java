@@ -167,6 +167,9 @@ public class GraphCanvas extends JPanel implements MouseListener{
                 case 2:
                     g.setColor(Color.GREEN);
                     break;
+                case 3:
+                    g.setColor(Color.BLUE);
+
             }
             drawArrowLine(g, (int) xsrc, (int) ysrc, (int) xdest, (int) ydest, 15, 3);
             if (edge.getWeight() != 0 && numbers) {
@@ -205,10 +208,15 @@ public class GraphCanvas extends JPanel implements MouseListener{
                 case 2:
                     g.setColor(Color.GREEN);
                     break;
+                case 3:
+                    g.setColor(Color.BLUE);
             }
-            g.fillOval(x+4, y+3, 13, 13);
+            g.fillOval(x+6, y+3, 13, 13);
             if (numbers) {
-                g.setColor(Color.white);
+                if (node.getTag()==2)
+                   g.setColor(Color.BLACK);
+                else
+                    g.setColor(Color.WHITE);
                 g.setFont(new Font("Dialog", Font.BOLD, 12));
                 g.drawString("" + node.getKey(), x + 7, y + 15);
             }
