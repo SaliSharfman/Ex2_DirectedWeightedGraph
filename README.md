@@ -1,7 +1,7 @@
 
 <center><head><b>Ex2_DirectedWeightedGraphas</b></head></br>
 <u>authors:  Sali Sharfman, Josef Sokolov.</u></br></br>
-This program deals with the graphic realization of weighted and directed graphs. </br>As part of implementing the graphs we implemented Node, Edge, Graph, and algorithms on the graph.</br>The algorithms we implemented are: finding a central node, finding the shortest route between two nodes and its length, checking if the graph is connected, and finding a solution to the problem of finding shortest path that goes over all nodes in the graph  .</br>
+This OOP deals with the realization of weighted and directed graphs. It includes a few calculations on the graph via well-known algorithms such as Floyd-Warshall algorithm and Dijkstra algorithm and also it includes the GUI (graphical user interface) to show the graph itself and it's calculations to the user. </br>As part of implementing the graphs we implemented such classes like: Node, Edge, Graph and Algorithms (algorithms on the graph).</br>The algorithms we implemented are: finding a central node, finding the shortest route between two nodes and its length, checking if the graph is connected, and finding a solution to the problem of finding shortest path that goes over all nodes in the graph  .</br>
 In addition, the software has editing options for the graph, which are adding a node, deleting a node, connecting an edge, and deleting an edge.</br>
 
 
