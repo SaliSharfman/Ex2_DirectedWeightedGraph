@@ -1,7 +1,7 @@
 
 <head><b>Ex2_DirectedWeightedGraphas</b></head></br>
 <u>authors:  Sali Sharfman, Josef Sokolov.</u></br></br>
-This software deals with the graphic realization of weighted and directed graphs. </br>As part of implementing the graphs we implemented Node, Edge, Graph, and algorithms on the graph.</br>The algorithms we implemented are: finding a central node, finding the shortest route between two nodes and its length, checking if the graph is connected, and finding a solution to the problem of finding shortest path that goes over all nodes in the graph  .</br>
+This program deals with the graphic realization of weighted and directed graphs. </br>As part of implementing the graphs we implemented Node, Edge, Graph, and algorithms on the graph.</br>The algorithms we implemented are: finding a central node, finding the shortest route between two nodes and its length, checking if the graph is connected, and finding a solution to the problem of finding shortest path that goes over all nodes in the graph  .</br>
 In addition, the software has editing options for the graph, which are adding a node, deleting a node, connecting an edge, and deleting an edge.</br>
 
 
@@ -31,3 +31,45 @@ The UML diagram presents the division of our classes: [UML.class.Ex2.pdf](https:
 
 <img width="1093" alt="Screen Shot 2021-11-18 at 0 26 08" src="https://user-images.githubusercontent.com/86108478/145435553-20cdd525-4943-4b58-a51c-14224432c1bd.jpg">
 </br>
+<b>Run Time Log:</b></br>
+</br><b>isConnected:</b></br>
+G1.json (17 Nodes):4 sec 875 ms</br>
+G2.json (31 Nodes):4 sec 871 ms</br>
+G3.json (48 Nodes):5 sec 12 ms</br>
+1,000 Nodes:5 sec 6 ms</br>
+10,000 Nodes:6 sec 686 ms</br>
+100,000 Nodes:2 min 37 sec</br>
+
+</br><b>center:</b></br>
+G1.json (17 Nodes):4 sec 851 ms</br>
+G2.json (31 Nodes):4 sec 854 ms</br>
+G3.json (48 Nodes):4 sec 971 ms</br>
+1,000 Nodes:7 sec 697 ms</br>
+   10,000 Nodes:</br>
+   100,000 Nodes:</br>
+   
+</br><b>shortestPathDist:</b></br>
+G1.json (17 Nodes):4 sec 796 ms</br>
+G2.json (31 Nodes):4 sec 863 ms</br>
+G3.json (48 Nodes):4 sec 944 ms</br>
+1,000 Nodes:4 sec 925 ms</br>
+10,000 Nodes:6 sec 764 ms</br>
+100,000 Nodes:2 min 58 sec</br>
+
+</br><b>shortestPath:</b></br>
+G1.json (17 Nodes):4 sec 868 ms</br>
+G2.json (31 Nodes):4 sec 815 ms</br>
+G3.json (48 Nodes):4 sec 942 ms</br>
+1,000 Nodes:5 sec 57 ms</br>
+10,000 Nodes:6 sec 487 ms</br>
+100,000 Nodes:2 min 36 sec</br>
+
+</br><b>tsp:</b></br>
+G1.json (17 Nodes):6 sec 911 ms</br>
+G2.json (31 Nodes):9 sec 882 ms</br>
+G3.json (48 Nodes):18 sec 931 ms</br>
+   1,000 Nodes:</br>
+   10,000 Nodes:</br>
+   100,000 Nodes:</br>
+[Ex2_jar.zip](https://github.com/SaliSharfman/Ex2_DirectedWeightedGraph/files/7700130/Ex2_jar.zip)
+
