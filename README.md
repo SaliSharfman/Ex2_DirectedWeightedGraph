@@ -1,7 +1,7 @@
 
 <center><head><b>Ex2_DirectedWeightedGraphas</b></head></br>
 <u>authors:  Sali Sharfman, Josef Sokolov.</u></br></br>
-This OOP deals with the realization of weighted and directed graphs. It includes a few calculations on the graph via well-known algorithms such as Floyd-Warshall algorithm and Dijkstra algorithm and also it includes the GUI (graphical user interface) to show the graph itself and it's calculations to the user. </br>
+This OOP project deals with the realization of weighted and directed graphs. It includes a few calculations on the graph via well-known algorithms such as Floyd-Warshall algorithm and Dijkstra algorithm and also it includes the GUI (graphical user interface) to show the graph itself and it's calculations to the user. </br>
 As part of implementing the graphs we implemented classes:</br>
  <b>* class Node</br>
  * class Edge</br>
