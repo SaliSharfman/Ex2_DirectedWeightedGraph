@@ -31,31 +31,9 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
         this.graph = g;
     }
 
-    private boolean BFS(LinkedList<Integer> queue, HashMap<Integer, Integer> colors, DirectedWeightedGraph g) {
-        if (queue.isEmpty()) {
-            for (int i : colors.values())
-                if (i != 2)
-                    return false;
-            return true;
-        }
-        int v = queue.poll();
-        Iterator<EdgeData> ei = g.edgeIter(v);
-        while (ei.hasNext()) {
-            int dest = ei.next().getDest();
-            if (colors.get(dest) == 0) {
-                colors.remove(dest);
-                colors.put(dest, 1);//gray
-                queue.add(dest);
-            }
-        }
-        colors.remove(v);
-        colors.put(v, 2);//black
-        return BFS(queue, colors, this.graph);
-    }
-
     @Override
     public boolean isConnected() {
-        if (this.graph.nodeSize() == 0)
+        if (this.graph.nodeSize() == 0||this.graph.nodeSize() == 1)
             return true;
         DirectedWeightedGraphAlgorithms algo = new GraphAlgorithms(this.copy());
         Iterator<NodeData> nodeDataIterator = algo.getGraph().nodeIter();
@@ -67,6 +45,11 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
                 return false;
             }
         }
+        nodeDataIterator = algo.getGraph().nodeIter();
+        int d=nodeDataIterator.next().getKey();
+        int s=nodeDataIterator.next().getKey();
+        if(this.shortestPathDist(s,d)==-1)
+            return false;
         return true;
     }
     private LinkedList findInit(DirectedWeightedGraph g1) {
