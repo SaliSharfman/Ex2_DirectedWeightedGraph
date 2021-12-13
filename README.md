@@ -82,8 +82,7 @@ G3.json (48 Nodes):18 sec 931 ms</br>
    🔹The GUI of the project will run, a directory named "data" will appear in the directory that you saved the files    in for loading and saving files, if you runned with a json    file argument the graph that you runned will be drawn and saved in data directory, else, a new empty graph will be opened and saved in data dirctory. </br>
    🔹 Now you can use the program, edit graphs and run the algorithms.</br>
    <b>Have fun! </B></center> 
-![icon](https://user-images.githubusercontent.com/86108478/145739726-14159ff4-8878-4ec0-81b6-be6af1a73085.jpg)
 
-
+![icon](https://user-images.githubusercontent.com/86108478/145838408-f1dac02c-37d3-4909-8abb-5c205f5af11e.jpg)
 
 
