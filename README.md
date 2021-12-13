@@ -10,7 +10,7 @@ As part of implementing the graphs we implemented classes:</br>
  * class GraphAlgorithms (algorithms on the graph)</br>
 </br>
 The algorithms we implemented are: </br></br>
- - Center:  finding a central node (node with the minimal sum weight of edges that get out of it to all other nodes). Our algorithm for finding center is based on Floyd-Warshall algorithm. </br></br>
+ - Center:  finding a central node (node with the minimal sum weight of edges that get out of it to all other nodes). Our algorithm for finding center is based on Floyd-Warshall algorithm that is dynamic programming. The Floyd–Warshall algorithm compares all possible paths through the graph between each pair of vertices. It is able to do this with Θ(|V|^3) </br></br>
  - Shortest path:  finding the shortest path between two nodes and its length. Our algorithm for finding shortest path is based on Dijkstra algorithm.</br></br>
  - Is connected:  checking if the graph is connected. Our algorithm for finding if the graph is connected is based on Dijkstra algorithm too (For the first time we used BFS algorithm and it also worked well but found out that we can calculate it with Dijkstra algorithm as well and because Dijkstra was working faster so we prefered it)</br></br>
  - Tsp:(not real tsp but very close to it):   finding finding the shortest path that goes over all nodes in the graph. Here we used Simulated annealing (SA) Algorithm. Simulated annealing (SA) is a probabilistic technique for approximating the global optimum of a given function. </br></br>
