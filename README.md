@@ -1,7 +1,19 @@
 
 <center><head><b>Ex2_DirectedWeightedGraphas</b></head></br>
 <u>authors:  Sali Sharfman, Josef Sokolov.</u></br></br>
-This OOP deals with the realization of weighted and directed graphs. It includes a few calculations on the graph via well-known algorithms such as Floyd-Warshall algorithm and Dijkstra algorithm and also it includes the GUI (graphical user interface) to show the graph itself and it's calculations to the user. </br>As part of implementing the graphs we implemented classes:</br>class Node</br>class Edge</br>class Graph</br>class GraphAlgorithms (algorithms on the graph)</br></br>The algorithms we implemented are:</br></b>center:</b> finding a central node (node with the minimal sum weight of edges that get out of it to all other nodes)</br>shortest path: finding the shortest path between two nodes and its length</br> isConnected: checking if the graph is connected</br> tsp:(not real tsp): finding finding the shortest path that goes over all nodes in the graph.</br>
+This OOP deals with the realization of weighted and directed graphs. It includes a few calculations on the graph via well-known algorithms such as Floyd-Warshall algorithm and Dijkstra algorithm and also it includes the GUI (graphical user interface) to show the graph itself and it's calculations to the user. </br>
+As part of implementing the graphs we implemented classes:</br>
+ * class Node</br>
+ * class Edge</br>
+ * class Graph</br>
+ * class Geo_Location</br>
+ * class GraphAlgorithms (algorithms on the graph)</br>
+</br>
+The algorithms we implemented are: </br>
+ - center: finding a central node (node with the minimal sum weight of edges that get out of it to all other nodes). Our algorithm for finding center is based on Floyd-Warshall algorithm. </br>
+ - shortest path: finding the shortest path between two nodes and its length. Our algorithm for finding shortest path is based on Dijkstra algorithm.</br>
+ - is connected: checking if the graph is connected. Our algorithm for finding if the graph is connected is based on Dijkstra algorithm too (For the first time we used BFS algorithm and it also worked well but found out that we can calculate it with Dijkstra algorithm as well and because Dijkstra was working faster so we prefered it)</br>
+ - tsp:(not real tsp!): finding finding the shortest path that goes over all nodes in the graph. Here we used Simulated annealing (SA) Algorithm. Simulated annealing (SA) is a probabilistic technique for approximating the global optimum of a given function. </br>
 In addition, the program has editing options for the graph, which are: add node, delete node, connect edge, and delete edge.</br>
 
 
