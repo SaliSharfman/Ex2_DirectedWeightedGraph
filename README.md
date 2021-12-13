@@ -74,7 +74,7 @@ G3.json (48 Nodes):18 sec 931 ms</br>
    
    </br><b>Instructions for running the program:</b></br>
    🔹Download the following zip file- 
-   [Ex2_jar.zip](https://github.com/SaliSharfman/Ex2_DirectedWeightedGraph/files/7700295/Ex2_jar.zip)</br>
+   [Ex2_jar.zip](https://github.com/SaliSharfman/Ex2_DirectedWeightedGraph/files/7700437/Ex2_jar.zip)
    🔹Extract the files to your computer.</br>
    🔹Open CMD.</br>
    🔹Cd the directory that you saved the files in.</br>
@@ -83,6 +83,7 @@ G3.json (48 Nodes):18 sec 931 ms</br>
    🔹 Now you can use the program, edit graphs and run the algorithms.</br>
    <b>Have fun! </B></center> 
 ![icon](https://user-images.githubusercontent.com/86108478/145739726-14159ff4-8878-4ec0-81b6-be6af1a73085.jpg)
+
 
 
 
