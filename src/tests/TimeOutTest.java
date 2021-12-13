@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertTimeout;
 
 class TimeOutTest {
     List<NodeData> cities;
-    DirectedWeightedGraphAlgorithms graphAlgo1, graphAlgo2, graphAlgo3, graphAlgo4, graphAlgo5 ;
+    DirectedWeightedGraphAlgorithms graphAlgo1, graphAlgo2, graphAlgo3, graphAlgo4, graphAlgo5, graphAlgo6 ;
 
     @BeforeEach
     void setUp() {
@@ -25,6 +25,7 @@ class TimeOutTest {
         graphAlgo3 = getGrapgAlgo("data/G3.json");
         graphAlgo4 = getGrapgAlgo("data/1000Nodes.json");
         graphAlgo5 = getGrapgAlgo("data/10000Nodes.json");
+        graphAlgo6 = getGrapgAlgo("data/100000.json");
     }
 
     @Test
@@ -32,6 +33,9 @@ class TimeOutTest {
         assertTimeout(Duration.ofSeconds(5), () -> tspTest(graphAlgo1)); // pass under 5sec
         assertTimeout(Duration.ofSeconds(10), () -> tspTest(graphAlgo2)); // pass under 10sec
         assertTimeout(Duration.ofSeconds(20), () -> tspTest(graphAlgo3)); // pass under 20sec
+        assertTimeout(Duration.ofSeconds(20), () -> tspTest(graphAlgo4)); // pass under 20sec
+        assertTimeout(Duration.ofSeconds(20), () -> tspTest(graphAlgo5)); // pass under 20sec
+        assertTimeout(Duration.ofSeconds(20), () -> tspTest(graphAlgo6)); // pass under 20sec
     }
     @Test
     void test_timeout_shortestPathDist() {
@@ -55,6 +59,8 @@ class TimeOutTest {
         assertTimeout(Duration.ofSeconds(1), () -> centerTest(graphAlgo2)); // pass under 1 sec
         assertTimeout(Duration.ofSeconds(1), () -> centerTest(graphAlgo3)); // pass under 1 sec
         assertTimeout(Duration.ofSeconds(10), () -> centerTest(graphAlgo4)); // pass under 10 sec
+        assertTimeout(Duration.ofSeconds(10), () -> centerTest(graphAlgo5)); // pass under 10 sec
+        assertTimeout(Duration.ofSeconds(10), () -> centerTest(graphAlgo6)); // pass under 10 sec
 
 
     }
@@ -64,7 +70,8 @@ class TimeOutTest {
         assertTimeout(Duration.ofSeconds(1), () -> isConnectedTest(graphAlgo2)); // pass under _sec
         assertTimeout(Duration.ofSeconds(1), () -> isConnectedTest(graphAlgo3)); // pass under _sec
         assertTimeout(Duration.ofSeconds(1), () -> isConnectedTest(graphAlgo4)); // pass under _sec
-
+        assertTimeout(Duration.ofSeconds(2), () -> isConnectedTest(graphAlgo5)); // pass under 2 sec
+        assertTimeout(Duration.ofSeconds(2), () -> isConnectedTest(graphAlgo6)); // pass under 2 sec
     }
 
 
@@ -90,15 +97,5 @@ class TimeOutTest {
     void isConnectedTest(DirectedWeightedGraphAlgorithms graphAlgorithms){
         graphAlgorithms.isConnected();
     }
-
-
-//    void delaySecond(int second) {
-//        try {
-//            TimeUnit.SECONDS.sleep(second);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-//    }
-
 }
 

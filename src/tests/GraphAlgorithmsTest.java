@@ -45,7 +45,6 @@ class GraphAlgorithmsTest {
     void isConnected() {
         graph1.connect(1,3,0);
         graph1.connect(2,0,0);
-       // graph1.removeEdge(3,2);
         algog1.init(graph1);
         algog1.isConnected();
         assertTrue(algog1.isConnected());
@@ -65,7 +64,6 @@ class GraphAlgorithmsTest {
         alg.getGraph().connect(3,5,3);
         alg.getGraph().connect(5,7,4);
         alg.getGraph().connect(1,2,1);
-       // alg.getGraph().connect(1,5,8);
         alg.getGraph().connect(2,4,2);
         alg.getGraph().connect(4,6,3);
         alg.getGraph().connect(6,7,4);
@@ -74,11 +72,9 @@ class GraphAlgorithmsTest {
         alg.getGraph().connect(6,1,4);
         alg.getGraph().connect(7,1,13);
         alg.getGraph().connect(2,1,1);
-       // assertEquals(7,alg.shortestPathDist(7,1));
         assertEquals(9,alg.shortestPathDist(1,7));
         System.out.println(alg.isConnected());
         System.out.println(alg.shortestPath(1,7));
-       // System.out.println(alg.center());
 
     }
 
@@ -179,6 +175,15 @@ class GraphAlgorithmsTest {
 
     @Test
     void save() {
+        try {
+            assertFalse(algog1.load("nojsonfile"));
+        }
+        catch(Exception e)
+        {
+            assertEquals(" nojsonfile (The system cannot find the file specified)",e.toString());
+        }
+
+        assertTrue(algog1.save("data/test.json"));
 
     }
 
